@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Network — Connection Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/x-icon" href="mynetwork.ico">
+<style>
+  :root {
+    --ink: #111111;
+    --ink-secondary: #4a4a4a;
+    --ink-tertiary: #8a8a8a;
+    --ink-disabled: #c4c4c4;
+    --surface: #f8f6f2;
+    --surface-2: #f0ede6;
+    --surface-3: #e5e0d6;
+    --white: #ffffff;
+    --accent: #1a1a1a;
+    --accent-warm: #c85c2a;
+    --accent-warm-hover: #a84820;
+    --border: rgba(17,17,17,0.1);
+    --border-strong: rgba(17,17,17,0.18);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.05);
+    --shadow-lg: 0 16px 48px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.07);
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--surface);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── TOP NAV ── */
+  .topnav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s, transform 0.1s;
+    white-space: nowrap;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .btn:active { transform: translateY(1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-secondary);
+    padding: 7px 12px;
+    border: 1px solid var(--border-strong);
+  }
+  .btn-ghost:hover { background: var(--surface); color: var(--ink); }
+
+  .btn-dark {
+    background: var(--ink);
+    color: var(--white);
+    padding: 7px 14px;
+    box-shadow: var(--shadow-sm);
+  }
+  .btn-dark:hover { background: #2a2a2a; }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--white);
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    font-size: 13.5px;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+    border: none;
+  }
+  .btn-primary:hover { background: #2a2a2a; box-shadow: var(--shadow-md); }
+
+  .btn-secondary {
+    background: var(--white);
+    color: var(--ink);
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    font-size: 13.5px;
+    font-weight: 500;
+    border: 1px solid var(--border-strong);
+  }
+  .btn-secondary:hover { background: var(--surface); }
+
+  .btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* ── LAYOUT ── */
+  .app-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    min-height: calc(100vh - 56px);
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background: var(--white);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sidebar-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    gap: 4px;
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-tertiary);
+    padding: 14px 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    transition: color 0.15s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+
+  .tab-btn.active {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+
+  .tab-btn:hover:not(.active) { color: var(--ink-secondary); }
+
+  .badge {
+    background: var(--surface-3);
+    color: var(--ink-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 20px;
+    line-height: 1.4;
+  }
+
+  .badge.active-badge {
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  .sidebar-search {
+    padding: 16px 20px 12px;
+  }
+
+  .search-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 11px;
+    color: var(--ink-tertiary);
+    width: 15px;
+    height: 15px;
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    padding: 9px 12px 9px 34px;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .search-input::placeholder { color: var(--ink-disabled); }
+
+  .search-input:focus {
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px rgba(17,17,17,0.07);
+    background: var(--white);
+  }
+
+  .sidebar-filters {
+    padding: 0 20px 14px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .filter-chip {
+    background: var(--ink);
+    color: var(--white);
+    border: 1px solid transparent;
+    border-radius: 20px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-chip.outline {
+    background: transparent;
+    color: var(--ink-secondary);
+    border-color: var(--border-strong);
+  }
+  .filter-chip.outline:hover { border-color: var(--ink); color: var(--ink); }
+
+  .sidebar-stats {
+    padding: 0 20px 14px;
+    display: flex;
+    gap: 16px;
+  }
+
+  .stat-item {
+    font-size: 12.5px;
+    color: var(--ink-tertiary);
+  }
+
+  .stat-item strong {
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  .sidebar-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .sidebar-empty-icon {
+    width: 40px;
+    height: 40px;
+    color: var(--ink-disabled);
+    margin-bottom: 4px;
+  }
+
+  .sidebar-empty p {
+    font-size: 13.5px;
+    color: var(--ink-tertiary);
+    max-width: 200px;
+    line-height: 1.5;
+  }
+
+  /* ── MAIN PANEL ── */
+  .main-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 48px 72px;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .main-panel-inner {
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .main-heading {
+    font-family: var(--font-display);
+    font-size: 32px;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    line-height: 1.15;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .main-subtext {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .onboarding-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .onboarding-card {
+    background: var(--white);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 24px 28px;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: var(--ink);
+    border: 1px solid var(--border);
+  }
+
+  .card-icon svg { width: 16px; height: 16px; }
+
+  .card-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+    margin-bottom: 2px;
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+
+  .card-desc {
+    font-size: 13.5px;
+    color: var(--ink-secondary);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    padding-left: 48px;
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 8px;
+    padding-left: 48px;
+  }
+
+  .card-hint {
+    font-size: 11.5px;
+    color: var(--ink-tertiary);
+    line-height: 1.5;
+    margin-top: 12px;
+    padding-left: 48px;
+  }
+
+  .card-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 -28px 20px;
+  }
+
+  .card-returning {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+  }
+
+  .card-returning .card-icon {
+    background: var(--white);
+  }
+
+  /* ── STATUS BAR ── */
+  .status-bar {
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 12px;
+    color: var(--ink-tertiary);
+    gap: 12px;
+    z-index: 50;
+  }
+
+  .status-bar-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .status-bar-right a {
+    color: var(--ink-secondary);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .status-bar-right a:hover { text-decoration: underline; }
+
+  .status-warn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #92400e;
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    border-radius: var(--radius-sm);
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(17,17,17,0.45);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 24px;
+    animation: fadeOverlay 0.2s ease;
+  }
+
+  @keyframes fadeOverlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 500px;
+    padding: 0;
+    overflow: hidden;
+    animation: slideModal 0.22s cubic-bezier(0.34, 1.36, 0.64, 1);
+  }
+
+  @keyframes slideModal {
+    from { opacity: 0; transform: translateY(18px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .modal-header {
+    padding: 32px 36px 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .modal-header-content {}
+
+  .modal-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+    margin-bottom: 8px;
+  }
+
+  .modal-label svg { width: 12px; height: 12px; }
+
+  .modal-header h2 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .modal-close {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    color: var(--ink-secondary);
+    transition: background 0.15s, color 0.15s;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .modal-close:hover { background: var(--surface-2); color: var(--ink); }
+  .modal-close svg { width: 14px; height: 14px; }
+
+  .modal-body {
+    padding: 24px 36px;
+  }
+
+  .modal-features {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 28px;
+  }
+
+  .feature-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    transition: background 0.12s;
+  }
+  .feature-row:hover { background: var(--surface); }
+
+  .feature-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: var(--ink);
+    border: 1px solid var(--border);
+  }
+
+  .feature-icon svg { width: 16px; height: 16px; }
+
+  .feature-text {}
+
+  .feature-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+    line-height: 1.3;
+  }
+
+  .feature-desc {
+    font-size: 13px;
+    color: var(--ink-secondary);
+    line-height: 1.5;
+  }
+
+  .feature-desc code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    background: var(--surface-2);
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: var(--ink);
+    border: 1px solid var(--border);
+  }
+
+  .modal-warning {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: var(--radius-md);
+    padding: 13px 16px;
+    display: flex;
+    gap: 11px;
+    align-items: flex-start;
+    margin-bottom: 28px;
+  }
+
+  .modal-warning-icon {
+    width: 18px;
+    height: 18px;
+    color: #d97706;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .modal-warning p {
+    font-size: 13px;
+    color: #78350f;
+    line-height: 1.55;
+  }
+
+  .modal-warning strong { font-weight: 600; }
+
+  .modal-footer {
+    padding: 0 36px 32px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .modal-footer .btn-primary {
+    flex: 1;
+    justify-content: center;
+    font-size: 13.5px;
+    padding: 12px;
+  }
+
+  .modal-footer .btn-secondary {
+    flex: 1;
+    justify-content: center;
+    font-size: 13.5px;
+    padding: 12px;
+  }
+
+
+
+  /* Add extra bottom padding so status bar doesn't cover content */
+  .app-wrapper { padding-bottom: 80px; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="nav-brand" href="#">
+    <svg height="40" viewBox="0 0 336 102" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <path d="M310.947 63.48V36.0182H315.922V48.6361H316.257L326.971 36.0182H333.045L322.425 48.3411L333.139 63.48H327.159L318.966 51.7068L315.922 55.3005V63.48H310.947Z" fill="#C85C2A"/>
+      <path d="M284.878 63.48V36.0182H295.176C297.286 36.0182 299.056 36.3847 300.486 37.1177C301.925 37.8508 303.011 38.8788 303.744 40.2018C304.486 41.5159 304.857 43.049 304.857 44.8011C304.857 46.5622 304.482 48.0908 303.731 49.3871C302.989 50.6743 301.894 51.6711 300.446 52.3773C298.998 53.0746 297.219 53.4232 295.109 53.4232H287.774V49.2932H294.438C295.672 49.2932 296.682 49.1233 297.469 48.7836C298.256 48.435 298.837 47.9299 299.212 47.2684C299.597 46.598 299.789 45.7755 299.789 44.8011C299.789 43.8267 299.597 42.9954 299.212 42.3071C298.828 41.6098 298.242 41.0824 297.456 40.7248C296.669 40.3583 295.654 40.175 294.412 40.175H289.853V63.48H284.878ZM299.065 51.0364L305.863 63.48H300.312L293.634 51.0364H299.065Z" fill="#C85C2A"/>
+      <path d="M278.664 49.7491C278.664 52.708 278.11 55.2424 277.001 57.352C275.902 59.4528 274.4 61.0619 272.496 62.1793C270.601 63.2967 268.451 63.8555 266.046 63.8555C263.642 63.8555 261.487 63.2967 259.583 62.1793C257.688 61.053 256.186 59.4394 255.078 57.3386C253.978 55.2289 253.428 52.6991 253.428 49.7491C253.428 46.7902 253.978 44.2603 255.078 42.1595C256.186 40.0499 257.688 38.4363 259.583 37.3189C261.487 36.2014 263.642 35.6427 266.046 35.6427C268.451 35.6427 270.601 36.2014 272.496 37.3189C274.4 38.4363 275.902 40.0499 277.001 42.1595C278.11 44.2603 278.664 46.7902 278.664 49.7491ZM273.663 49.7491C273.663 47.6662 273.336 45.9096 272.684 44.4793C272.04 43.0401 271.146 41.9539 270.002 41.2209C268.858 40.4789 267.539 40.108 266.046 40.108C264.553 40.108 263.235 40.4789 262.091 41.2209C260.946 41.9539 260.048 43.0401 259.395 44.4793C258.752 45.9096 258.43 47.6662 258.43 49.7491C258.43 51.832 258.752 53.593 259.395 55.0323C260.048 56.4626 260.946 57.5487 262.091 58.2907C263.235 59.0237 264.553 59.3902 266.046 59.3902C267.539 59.3902 268.858 59.0237 270.002 58.2907C271.146 57.5487 272.04 56.4626 272.684 55.0323C273.336 53.593 273.663 51.832 273.663 49.7491Z" fill="#C85C2A"/>
+      <path d="M221.851 63.48L214.101 36.0182H219.451L224.399 56.1989H224.654L229.937 36.0182H234.805L240.101 56.2123H240.342L245.29 36.0182H250.641L242.89 63.48H237.982L232.485 44.2111H232.27L226.759 63.48H221.851Z" fill="#C85C2A"/>
+      <path d="M188.427 40.1884V36.0182H210.338V40.1884H201.85V63.48H196.915V40.1884H188.427Z" fill="#C85C2A"/>
+      <path d="M165.187 63.48V36.0182H183.048V40.1884H170.162V47.6439H182.123V51.8141H170.162V59.3098H183.156V63.48H165.187Z" fill="#C85C2A"/>
+      <path d="M158.256 36.0182V63.48H153.831L140.892 44.7743H140.664V63.48H135.689V36.0182H140.141L153.067 54.7373H153.308V36.0182H158.256Z" fill="#C85C2A"/>
+      <path d="M112.335 71.2037C111.727 71.2037 111.186 71.1545 110.713 71.0562C110.239 70.9668 109.886 70.8684 109.653 70.7612L111.182 67.4759C111.888 67.6726 112.518 67.7486 113.073 67.7039C113.636 67.6592 114.163 67.4268 114.655 67.0066C115.147 66.5865 115.647 65.925 116.157 65.0221L116.908 63.6678L112.871 42.8837H117.001L119.549 58.9075H119.764L127.648 42.8837H132.114L119.764 66.2021C119.183 67.3106 118.521 68.2313 117.779 68.9643C117.046 69.7063 116.224 70.265 115.312 70.6405C114.409 71.0159 113.417 71.2037 112.335 71.2037Z" fill="black"/>
+      <path d="M76.9299 63.48L80.3626 42.8836H84.211L83.6478 46.2359H83.9026C84.5284 45.1006 85.3776 44.2156 86.4503 43.5809C87.532 42.9373 88.7567 42.6154 90.1244 42.6154C91.4832 42.6154 92.5783 42.9373 93.4097 43.5809C94.25 44.2245 94.7997 45.1095 95.059 46.2359H95.2735C95.935 45.1274 96.8603 44.2469 98.0492 43.5943C99.2382 42.9417 100.575 42.6154 102.059 42.6154C103.909 42.6154 105.33 43.2054 106.323 44.3854C107.324 45.5565 107.628 47.3176 107.234 49.6686L104.928 63.48H100.905L103.158 50.0441C103.382 48.6406 103.167 47.6304 102.514 47.0136C101.862 46.3879 101.008 46.075 99.9533 46.075C98.6482 46.075 97.5665 46.4773 96.7083 47.2818C95.8501 48.0774 95.3227 49.101 95.126 50.3525L92.9135 63.48H88.931L91.224 49.7893C91.4028 48.6629 91.1972 47.7645 90.6072 47.0941C90.0261 46.4147 89.1769 46.075 88.0594 46.075C87.2996 46.075 86.5621 46.2761 85.8469 46.6784C85.1407 47.0807 84.5373 47.6349 84.0367 48.3411C83.5361 49.0473 83.2098 49.8608 83.0578 50.7816L80.9392 63.48H76.9299Z" fill="black"/>
+      <path d="M12 53C12.5484 47 16.9355 35.5 29 32" stroke="black" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="36.5" cy="30.5" r="7" stroke="black" stroke-width="3"/>
+      <path d="M50.5 35C55.422 38.4749 63.1877 48.0243 60.1865 60.2224" stroke="black" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="57.7356" cy="67.4676" r="7" transform="rotate(120 57.7356 67.4676)" stroke="black" stroke-width="3"/>
+      <path d="M47.3468 76.5789C41.8764 79.1039 29.7236 81.0546 20.6603 72.3564" stroke="black" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="15.6112" cy="66.6112" r="7" transform="rotate(-120 15.6112 66.6112)" stroke="black" stroke-width="3"/>
+    </svg>
+  </a>
+
+  <div class="nav-actions">
+    <button class="btn btn-ghost">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 11V13H4L11.5 5.5L9.5 3.5L2 11Z"/><path d="M13 2L14 3L13.5 3.5L11.5 1.5L12 1L13 2Z" fill="currentColor" stroke="none"/>
+      </svg>
+      Import CSV
+    </button>
+    <button class="btn btn-ghost">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12H13M8 2V10M5 7L8 10L11 7"/>
+      </svg>
+      Save JSON
+    </button>
+    <button class="btn btn-ghost">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 4H13M5 9L8 6L11 9M8 14V6"/>
+      </svg>
+      Load JSON
+    </button>
+    <button class="btn btn-dark" onclick="document.getElementById('modal').style.display='flex'">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/>
+      </svg>
+      Add Contact
+    </button>
+  </div>
+</nav>
+
+<!-- APP LAYOUT -->
+<div class="app-wrapper">
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-tabs">
+        <button class="tab-btn active">
+          Connections
+          <span class="badge">0</span>
+        </button>
+        <button class="tab-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;">
+            <path d="M8 2L9.5 6H14L10.5 8.5L12 12.5L8 10L4 12.5L5.5 8.5L2 6H6.5L8 2Z"/>
+          </svg>
+          Starred
+          <span class="badge">0</span>
+        </button>
+      </div>
+
+      <div class="sidebar-search">
+        <div class="search-input-wrap">
+          <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="6.5" cy="6.5" r="4"/>
+            <line x1="10" y1="10" x2="14" y2="14"/>
+          </svg>
+          <input class="search-input" type="text" placeholder="Search name, company, tag…" />
+        </div>
+      </div>
+
+      <div class="sidebar-filters">
+        <button class="filter-chip">All</button>
+        <button class="filter-chip outline">With notes</button>
+        <button class="filter-chip outline">Starred</button>
+      </div>
+
+      <div class="sidebar-stats">
+        <span class="stat-item"><strong>0</strong> total</span>
+        <span class="stat-item"><strong>0</strong> with notes</span>
+        <span class="stat-item"><strong>0</strong> starred</span>
+      </div>
+
+      <div class="sidebar-empty">
+        <svg class="sidebar-empty-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="20" cy="16" r="6"/>
+          <path d="M8 34C8 28 13 24 20 24C27 24 32 28 32 34"/>
+          <line x1="26" y1="10" x2="30" y2="10"/>
+          <line x1="28" y1="8" x2="28" y2="12"/>
+        </svg>
+        <p>No connections yet. Import your LinkedIn CSV or add someone manually.</p>
+      </div>
+    </aside>
+
+    <!-- MAIN ONBOARDING PANEL -->
+    <main class="main-panel">
+      <div class="main-panel-inner">
+
+        <h1 class="main-heading">Your Connection Journal</h1>
+        <p class="main-subtext">Know your professional network</p>
+
+        <div class="onboarding-cards">
+
+          <!-- Card 1: New user -->
+          <div class="onboarding-card">
+            <div class="card-header">
+              <div class="card-icon">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 4H13M5 9L8 6L11 9M8 14V6"/>
+                </svg>
+              </div>
+              <div>
+                <p class="card-label">Getting started</p>
+                <h2 class="card-title">Import your LinkedIn connections</h2>
+              </div>
+            </div>
+            <p class="card-desc">Import your connections CSV from LinkedIn, then add notes, tags, and context for each person — fully searchable.</p>
+            <div class="card-actions">
+              <button class="btn btn-primary">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                  <path d="M3 4H13M5 9L8 6L11 9M8 14V6"/>
+                </svg>
+                Import LinkedIn CSV
+              </button>
+              <button class="btn btn-secondary" onclick="document.getElementById('modal').style.display='flex'">
+                Add manually
+              </button>
+            </div>
+            <p class="card-hint">LinkedIn → Settings → Data Privacy → Download your data → Download larger data archive</p>
+          </div>
+
+          <!-- Card 2: Returning user -->
+          <div class="onboarding-card card-returning">
+            <div class="card-header">
+              <div class="card-icon">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="3" width="12" height="10" rx="1.5"/>
+                  <path d="M5 3V2M11 3V2"/>
+                  <path d="M2 7H14"/>
+                  <path d="M5 10H8"/>
+                </svg>
+              </div>
+              <div>
+                <p class="card-label">Returning user</p>
+                <h2 class="card-title">Continue where you left off</h2>
+              </div>
+            </div>
+            <p class="card-desc">Already have a saved <code style="font-family:'SF Mono','Fira Code',monospace;font-size:12px;background:#e5e0d6;padding:1px 5px;border-radius:4px;border:1px solid rgba(17,17,17,0.1);">my-network.json</code> file? Load it to restore all your contacts, notes, and starred connections instantly.</p>
+            <div class="card-actions">
+              <button class="btn btn-secondary">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+                  <path d="M3 4H13M5 9L8 6L11 9M8 14V6"/>
+                </svg>
+                Load JSON file
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<!-- STATUS BAR -->
+<footer class="status-bar">
+  <div class="status-bar-left">
+    <span>Built by <a href="https://www.linkedin.com/in/rutuupadhyaya/" target="_blank" rel="noopener" style="color:var(--ink-secondary);text-decoration:underline;text-underline-offset:2px;">Rutu Upadhyaya</a> · <a href="http://enso9.com/" target="_blank" rel="noopener" style="color:var(--ink-secondary);text-decoration:underline;text-underline-offset:2px;">© enso9</a> · <a href="https://ko-fi.com/rutuenso9" target="_blank" rel="noopener" style="color:var(--accent-warm);text-decoration:underline;text-underline-offset:2px;font-weight:500;">☕ Support this project</a></span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span class="status-warn">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12H13M8 2V10M5 7L8 10L11 7"/>
+      </svg>
+      <span>Changes not saved automatically.<br>Always download your JSON file to save changes.</span>
+    </span>
+    <a class="status-bar-right" href="#" onclick="event.preventDefault();document.getElementById('modal').style.display='flex'">About this app</a>
+  </div>
+</footer>
+
+<!-- MODAL: WELCOME / ABOUT -->
+<div class="modal-overlay" id="modal" style="display:none;" onclick="if(event.target===this)this.style.display='none'">
+  <div class="modal">
+
+    <div class="modal-header">
+      <div class="modal-header-content">
+        <div style="margin-bottom:14px;">
+          <svg height="32" viewBox="0 0 336 102" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M310.947 63.48V36.0182H315.922V48.6361H316.257L326.971 36.0182H333.045L322.425 48.3411L333.139 63.48H327.159L318.966 51.7068L315.922 55.3005V63.48H310.947Z" fill="#C85C2A"/><path d="M284.878 63.48V36.0182H295.176C297.286 36.0182 299.056 36.3847 300.486 37.1177C301.925 37.8508 303.011 38.8788 303.744 40.2018C304.486 41.5159 304.857 43.049 304.857 44.8011C304.857 46.5622 304.482 48.0908 303.731 49.3871C302.989 50.6743 301.894 51.6711 300.446 52.3773C298.998 53.0746 297.219 53.4232 295.109 53.4232H287.774V49.2932H294.438C295.672 49.2932 296.682 49.1233 297.469 48.7836C298.256 48.435 298.837 47.9299 299.212 47.2684C299.597 46.598 299.789 45.7755 299.789 44.8011C299.789 43.8267 299.597 42.9954 299.212 42.3071C298.828 41.6098 298.242 41.0824 297.456 40.7248C296.669 40.3583 295.654 40.175 294.412 40.175H289.853V63.48H284.878ZM299.065 51.0364L305.863 63.48H300.312L293.634 51.0364H299.065Z" fill="#C85C2A"/><path d="M278.664 49.7491C278.664 52.708 278.11 55.2424 277.001 57.352C275.902 59.4528 274.4 61.0619 272.496 62.1793C270.601 63.2967 268.451 63.8555 266.046 63.8555C263.642 63.8555 261.487 63.2967 259.583 62.1793C257.688 61.053 256.186 59.4394 255.078 57.3386C253.978 55.2289 253.428 52.6991 253.428 49.7491C253.428 46.7902 253.978 44.2603 255.078 42.1595C256.186 40.0499 257.688 38.4363 259.583 37.3189C261.487 36.2014 263.642 35.6427 266.046 35.6427C268.451 35.6427 270.601 36.2014 272.496 37.3189C274.4 38.4363 275.902 40.0499 277.001 42.1595C278.11 44.2603 278.664 46.7902 278.664 49.7491ZM273.663 49.7491C273.663 47.6662 273.336 45.9096 272.684 44.4793C272.04 43.0401 271.146 41.9539 270.002 41.2209C268.858 40.4789 267.539 40.108 266.046 40.108C264.553 40.108 263.235 40.4789 262.091 41.2209C260.946 41.9539 260.048 43.0401 259.395 44.4793C258.752 45.9096 258.43 47.6662 258.43 49.7491C258.43 51.832 258.752 53.593 259.395 55.0323C260.048 56.4626 260.946 57.5487 262.091 58.2907C263.235 59.0237 264.553 59.3902 266.046 59.3902C267.539 59.3902 268.858 59.0237 270.002 58.2907C271.146 57.5487 272.04 56.4626 272.684 55.0323C273.336 53.593 273.663 51.832 273.663 49.7491Z" fill="#C85C2A"/><path d="M221.851 63.48L214.101 36.0182H219.451L224.399 56.1989H224.654L229.937 36.0182H234.805L240.101 56.2123H240.342L245.29 36.0182H250.641L242.89 63.48H237.982L232.485 44.2111H232.27L226.759 63.48H221.851Z" fill="#C85C2A"/><path d="M188.427 40.1884V36.0182H210.338V40.1884H201.85V63.48H196.915V40.1884H188.427Z" fill="#C85C2A"/><path d="M165.187 63.48V36.0182H183.048V40.1884H170.162V47.6439H182.123V51.8141H170.162V59.3098H183.156V63.48H165.187Z" fill="#C85C2A"/><path d="M158.256 36.0182V63.48H153.831L140.892 44.7743H140.664V63.48H135.689V36.0182H140.141L153.067 54.7373H153.308V36.0182H158.256Z" fill="#C85C2A"/><path d="M112.335 71.2037C111.727 71.2037 111.186 71.1545 110.713 71.0562C110.239 70.9668 109.886 70.8684 109.653 70.7612L111.182 67.4759C111.888 67.6726 112.518 67.7486 113.073 67.7039C113.636 67.6592 114.163 67.4268 114.655 67.0066C115.147 66.5865 115.647 65.925 116.157 65.0221L116.908 63.6678L112.871 42.8837H117.001L119.549 58.9075H119.764L127.648 42.8837H132.114L119.764 66.2021C119.183 67.3106 118.521 68.2313 117.779 68.9643C117.046 69.7063 116.224 70.265 115.312 70.6405C114.409 71.0159 113.417 71.2037 112.335 71.2037Z" fill="black"/><path d="M76.9299 63.48L80.3626 42.8836H84.211L83.6478 46.2359H83.9026C84.5284 45.1006 85.3776 44.2156 86.4503 43.5809C87.532 42.9373 88.7567 42.6154 90.1244 42.6154C91.4832 42.6154 92.5783 42.9373 93.4097 43.5809C94.25 44.2245 94.7997 45.1095 95.059 46.2359H95.2735C95.935 45.1274 96.8603 44.2469 98.0492 43.5943C99.2382 42.9417 100.575 42.6154 102.059 42.6154C103.909 42.6154 105.33 43.2054 106.323 44.3854C107.324 45.5565 107.628 47.3176 107.234 49.6686L104.928 63.48H100.905L103.158 50.0441C103.382 48.6406 103.167 47.6304 102.514 47.0136C101.862 46.3879 101.008 46.075 99.9533 46.075C98.6482 46.075 97.5665 46.4773 96.7083 47.2818C95.8501 48.0774 95.3227 49.101 95.126 50.3525L92.9135 63.48H88.931L91.224 49.7893C91.4028 48.6629 91.1972 47.7645 90.6072 47.0941C90.0261 46.4147 89.1769 46.075 88.0594 46.075C87.2996 46.075 86.5621 46.2761 85.8469 46.6784C85.1407 47.0807 84.5373 47.6349 84.0367 48.3411C83.5361 49.0473 83.2098 49.8608 83.0578 50.7816L80.9392 63.48H76.9299Z" fill="black"/><path d="M12 53C12.5484 47 16.9355 35.5 29 32" stroke="black" stroke-width="3" stroke-linecap="round"/><circle cx="36.5" cy="30.5" r="7" stroke="black" stroke-width="3"/><path d="M50.5 35C55.422 38.4749 63.1877 48.0243 60.1865 60.2224" stroke="black" stroke-width="3" stroke-linecap="round"/><circle cx="57.7356" cy="67.4676" r="7" transform="rotate(120 57.7356 67.4676)" stroke="black" stroke-width="3"/><path d="M47.3468 76.5789C41.8764 79.1039 29.7236 81.0546 20.6603 72.3564" stroke="black" stroke-width="3" stroke-linecap="round"/><circle cx="15.6112" cy="66.6112" r="7" transform="rotate(-120 15.6112 66.6112)" stroke="black" stroke-width="3"/>
+          </svg>
+        </div>
+        <h2>Your network lives on your device</h2>
+      </div>
+      <button class="modal-close" onclick="document.getElementById('modal').style.display='none'" aria-label="Close">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <line x1="3" y1="3" x2="13" y2="13"/>
+          <line x1="13" y1="3" x2="3" y2="13"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="modal-features">
+
+        <div class="feature-row">
+          <div class="feature-icon">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 4H13M5 9L8 6L11 9M8 14V6"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <p class="feature-title">Import LinkedIn connections</p>
+            <p class="feature-desc">Export <code>Connections.csv</code> and import here. Duplicates are skipped automatically — your notes are never overwritten.</p>
+          </div>
+        </div>
+
+        <div class="feature-row">
+          <div class="feature-icon">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 11V13H4L11.5 5.5L9.5 3.5L2 11Z"/>
+              <line x1="9" y1="4" x2="11.5" y2="6.5"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <p class="feature-title">Write how you met each person</p>
+            <p class="feature-desc">Add notes, tags, and context for every connection. Fully searchable and filterable.</p>
+          </div>
+        </div>
+
+        <div class="feature-row">
+          <div class="feature-icon">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 2L9.5 6H14L10.5 8.5L12 12.5L8 10L4 12.5L5.5 8.5L2 6H6.5L8 2Z"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <p class="feature-title">Star people for seasonal greetings</p>
+            <p class="feature-desc">Star connections anytime. When a season arrives, open Starred to draft a personal note and track outreach.</p>
+          </div>
+        </div>
+
+        <div class="feature-row">
+          <div class="feature-icon">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="2" width="10" height="12" rx="1"/>
+              <path d="M3 10H13M3 7H13"/>
+              <path d="M6 14V10"/>
+              <rect x="5" y="12" width="2" height="2" rx="0.5" fill="currentColor" stroke="none"/>
+              <rect x="9" y="12" width="2" height="2" rx="0.5" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <p class="feature-title">Your data stays on your device</p>
+            <p class="feature-desc">Nothing is sent to any server. Use <strong>Save</strong> to download <code>my-network.json</code> and <strong>Load</strong> to restore it next session.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="document.getElementById('modal').style.display='none'">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+          <path d="M3 4H13M5 9L8 6L11 9M8 14V6"/>
+        </svg>
+        Import LinkedIn CSV
+      </button>
+      <button class="btn btn-secondary" onclick="document.getElementById('modal').style.display='none'">
+        Add manually
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+  // Track whether there are unsaved changes
+  let hasUnsavedChanges = false;
+
+  // Call this whenever the user makes a change (add/edit/delete contact, etc.)
+  function markUnsaved() {
+    hasUnsavedChanges = true;
+  }
+
+  // Call this after a successful JSON save/download
+  function markSaved() {
+    hasUnsavedChanges = false;
+  }
+
+  window.addEventListener('beforeunload', function(e) {
+    if (hasUnsavedChanges) {
+      e.preventDefault();
+      e.returnValue = 'You have unsaved changes. Download your JSON file before leaving so you don\'t lose anything.';
+      return e.returnValue;
+    }
+  });
+</script>
+</body>
+</html>
