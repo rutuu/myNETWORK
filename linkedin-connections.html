@@ -3,673 +3,324 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Network — Connection Journal</title>
+<title>myNETWORK — Connection Journal</title>
+<link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAAAAAAAEAIABJHgAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAEAAAABAAgEAAAA9ntg7QAAHhBJREFUeNrtnXl8VEW2gL/uLJ2ksxBCSMIW9jXsiAi4gI7gLL7nRBQUddRxxT2OuOKM6Dj6GN8b9c04z8gYR0cWBEGCgABBQIAQIAkh5CQdkk5Iuid9yd6pe/8oIARMV3fVraru/n3/QB5J1bm3bt3z1a1bp5RSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWU+p9SSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSqm/lQIAAP//AwBQSwECLQAUAAYACAAAACEA0EKaJAABAADsBQAAEwAAAAAAAAAAAAAAAAAAAAAAW0NvbnRlbnRfVHlwZXNdLnhtbFBLAQItABQABgAIAAAAIQA4/SH/1gAAAJQBAAALAAAAAAAAAAAAAAAAADUBAABfcmVscy8ucmVsc1BLAQItABQABgAIAAAAIQA=">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="icon" type="image/x-icon" href="mynetwork.ico">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #111111;
-    --ink-secondary: #4a4a4a;
-    --ink-tertiary: #8a8a8a;
-    --ink-disabled: #c4c4c4;
-    --surface: #f8f6f2;
-    --surface-2: #f0ede6;
-    --surface-3: #e5e0d6;
-    --white: #ffffff;
-    --accent: #1a1a1a;
-    --accent-warm: #c85c2a;
-    --accent-warm-hover: #a84820;
-    --border: rgba(17,17,17,0.1);
-    --border-strong: rgba(17,17,17,0.18);
+    --ink: #1F1F1F;
+    --ink-secondary: #4A4A4A;
+    --ink-tertiary: #6B6B6B;
+    --ink-disabled: #C0CBCC;
+    --surface: #F4F6F7;
+    --surface-2: #EBF0F1;
+    --surface-3: #DDE3E4;
+    --white: #FFFFFF;
+    --primary: #4595A0;
+    --primary-hover: #3A7F8A;
+    --accent: #A7C8CC;
+    --accent-warm: #4595A0;
+    --accent-warm-hover: #3A7F8A;
+    --link: #2E7A85;
+    --warning-bg: #FFF4E5;
+    --warning-text: #8A5015;
+    --border: #DDE3E4;
+    --border-strong: #C8D4D6;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
     --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.05);
-    --shadow-lg: 0 16px 48px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.07);
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 16px;
-    --radius-xl: 20px;
-    --font-display: 'DM Serif Display', Georgia, serif;
-    --font-body: 'DM Sans', system-ui, sans-serif;
+    --shadow-lg: 0 16px 48px rgba(0,0,0,0.10), 0 4px 16px rgba(0,0,0,0.06);
+    --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-xl: 20px;
+    --font-display: "Inter", system-ui, sans-serif;
+    --font-body: "Inter", system-ui, sans-serif;
   }
+  :root { --radius-sm:var(--r-sm); --radius-md:var(--r-md); --radius-lg:var(--r-lg); --radius-xl:var(--r-xl); }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-body); background: var(--surface); color: var(--ink); min-height: 100vh; font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 
-  body {
-    font-family: var(--font-body);
-    background: var(--surface);
-    color: var(--ink);
-    min-height: 100vh;
-    font-size: 15px;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
+
+  /* ── ACCESSIBILITY FOCUS RING ── */
+  :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+  button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+    outline: 2px solid var(--primary); outline-offset: 2px;
   }
-
   /* ── TOP NAV ── */
-  .topnav {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 32px;
-    height: 56px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+  .topnav { background: var(--white); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 56px; position: sticky; top: 0; z-index: 100; }
+  .nav-brand { display: flex; align-items: center; text-decoration: none; }
+  .nav-actions { display: flex; align-items: center; gap: 8px; }
 
-  .nav-brand {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-  }
-
-  .nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--font-body);
-    font-size: 13.5px;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    border-radius: var(--radius-sm);
-    transition: background 0.15s, color 0.15s, box-shadow 0.15s, transform 0.1s;
-    white-space: nowrap;
-    line-height: 1;
-    text-decoration: none;
-  }
-
+  /* ── BUTTONS ── */
+  .btn { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-body); font-size: 13.5px; font-weight: 500; cursor: pointer; border: none; border-radius: var(--r-sm); transition: background 0.15s, color 0.15s, box-shadow 0.15s, transform 0.1s; white-space: nowrap; line-height: 1; text-decoration: none; }
   .btn:active { transform: translateY(1px); }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--ink-secondary);
-    padding: 7px 12px;
-    border: 1px solid var(--border-strong);
-  }
-  .btn-ghost:hover { background: var(--surface); color: var(--ink); }
-
-  .btn-dark {
-    background: var(--ink);
-    color: var(--white);
-    padding: 7px 14px;
-    box-shadow: var(--shadow-sm);
-  }
-  .btn-dark:hover { background: #2a2a2a; }
-
-  .btn-primary {
-    background: var(--ink);
-    color: var(--white);
-    padding: 10px 18px;
-    border-radius: var(--radius-md);
-    font-size: 13.5px;
-    font-weight: 500;
-    box-shadow: var(--shadow-sm);
-    border: none;
-  }
-  .btn-primary:hover { background: #2a2a2a; box-shadow: var(--shadow-md); }
-
-  .btn-secondary {
-    background: var(--white);
-    color: var(--ink);
-    padding: 10px 18px;
-    border-radius: var(--radius-md);
-    font-size: 13.5px;
-    font-weight: 500;
-    border: 1px solid var(--border-strong);
-  }
-  .btn-secondary:hover { background: var(--surface); }
-
   .btn svg { width: 14px; height: 14px; flex-shrink: 0; }
 
+  .btn-ghost { background: transparent; color: var(--ink-secondary); padding: 7px 12px; border: 1px solid var(--border-strong); }
+  .btn-ghost:hover { background: var(--surface); color: var(--ink); }
+  .btn-dark { background: var(--primary); color: #1F1F1F; padding: 7px 14px; box-shadow: var(--shadow-sm); }
+  .btn-dark:hover { background: var(--primary-hover); }
+  .btn-primary { background: var(--primary); color: #1F1F1F; padding: 10px 18px; border-radius: var(--r-md); font-size: 13.5px; font-weight: 500; box-shadow: var(--shadow-sm); border: none; }
+  .btn-primary:hover { background: var(--primary-hover); box-shadow: var(--shadow-md); }
+  .btn-secondary { background: var(--white); color: var(--ink); padding: 10px 18px; border-radius: var(--r-md); font-size: 13.5px; font-weight: 500; border: 1px solid var(--border-strong); }
+  .btn-secondary:hover { background: var(--surface); }
+  .btn-outline { background: var(--white); color: var(--ink); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: var(--r-sm); font-family: var(--font-body); font-size: 12.5px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s; text-decoration: none; line-height: 1; }
+  .btn-outline:hover { background: var(--surface); border-color: var(--ink); }
+  .btn-sm { padding: 6px 11px; font-size: 12.5px; }
+  .btn-danger { background: transparent; color: #b91c1c; border: 1px solid #fca5a5; border-radius: var(--r-sm); padding: 6px 10px; font-family: var(--font-body); font-size: 12.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s; }
+  .btn-danger:hover { background: #fef2f2; border-color: #f87171; }
+  .btn-danger svg { width: 13px; height: 13px; }
+
   /* ── LAYOUT ── */
-  .app-layout {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    min-height: calc(100vh - 56px);
-  }
+  .app-wrapper { padding-bottom: 52px; }
+  .app-layout { display: grid; grid-template-columns: 400px 1fr; min-height: calc(100vh - 56px); }
 
   /* ── SIDEBAR ── */
-  .sidebar {
-    background: var(--white);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .sidebar-tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-    padding: 0 20px;
-    gap: 4px;
-  }
-
-  .tab-btn {
-    background: none;
-    border: none;
-    font-family: var(--font-body);
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--ink-tertiary);
-    padding: 14px 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    position: relative;
-    transition: color 0.15s;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-  }
-
-  .tab-btn.active {
-    color: var(--ink);
-    border-bottom-color: var(--ink);
-  }
-
+  .sidebar { background: var(--white); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; position: sticky; top: 56px; height: calc(100vh - 56px); }
+  .sidebar-tabs { display: flex; border-bottom: 1px solid var(--border); padding: 0 20px; gap: 4px; }
+  .tab-btn { background: none; border: none; font-family: var(--font-body); font-size: 13.5px; font-weight: 500; color: var(--ink-tertiary); padding: 14px 4px; cursor: pointer; display: flex; align-items: center; gap: 6px; position: relative; transition: color 0.15s; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
   .tab-btn:hover:not(.active) { color: var(--ink-secondary); }
+  .badge { background: var(--surface-3); color: var(--ink-secondary); font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 20px; line-height: 1.4; }
+  .badge.active-badge { background: var(--primary); color: #1F1F1F; }
 
-  .badge {
-    background: var(--surface-3);
-    color: var(--ink-secondary);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 6px;
-    border-radius: 20px;
-    line-height: 1.4;
-  }
-
-  .badge.active-badge {
-    background: var(--ink);
-    color: var(--white);
-  }
-
-  .sidebar-search {
-    padding: 16px 20px 12px;
-  }
-
-  .search-input-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  .search-icon {
-    position: absolute;
-    left: 11px;
-    color: var(--ink-tertiary);
-    width: 15px;
-    height: 15px;
-    pointer-events: none;
-  }
-
-  .search-input {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border-strong);
-    border-radius: var(--radius-md);
-    padding: 9px 12px 9px 34px;
-    font-family: var(--font-body);
-    font-size: 13.5px;
-    color: var(--ink);
-    outline: none;
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
-
+  .sidebar-search { padding: 16px 20px 12px; }
+  .search-input-wrap { position: relative; display: flex; align-items: center; }
+  .search-icon { position: absolute; left: 11px; color: var(--ink-tertiary); width: 15px; height: 15px; pointer-events: none; }
+  .search-input { width: 100%; background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--r-md); padding: 9px 12px 9px 34px; font-family: var(--font-body); font-size: 13.5px; color: var(--ink); outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
   .search-input::placeholder { color: var(--ink-disabled); }
+  .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(58,95,138,0.12); background: var(--white); }
 
-  .search-input:focus {
-    border-color: var(--ink);
-    box-shadow: 0 0 0 3px rgba(17,17,17,0.07);
-    background: var(--white);
-  }
+  .sidebar-filters { padding: 0 20px 12px; }
+  .tag-filter-select { width: 100%; background: var(--white); border: 1px solid var(--border-strong); border-radius: var(--r-sm); padding: 8px 28px 8px 10px; font-family: var(--font-body); font-size: 13px; color: var(--ink); outline: none; cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16' fill='none' stroke='%236B6B6B' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; transition: border-color 0.15s; }
+  .tag-filter-select:focus { border-color: var(--primary); }
+  .tag-filter-label { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-tertiary); margin-bottom: 5px; display: block; }
 
-  .sidebar-filters {
-    padding: 0 20px 14px;
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
+  .sidebar-stats { padding: 0 20px 14px; display: flex; gap: 16px; }
+  .stat-item { font-size: 12.5px; color: var(--ink-tertiary); }
+  .stat-item strong { color: var(--ink); font-weight: 600; font-size: 13px; }
 
-  .filter-chip {
-    background: var(--ink);
-    color: var(--white);
-    border: 1px solid transparent;
-    border-radius: 20px;
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 500;
-    padding: 4px 12px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
+  .sidebar-list { flex: 1; overflow-y: auto; }
+  .connection-list { flex: 1; overflow-y: auto; }
+  .connection-list::-webkit-scrollbar { width: 3px; }
+  .connection-list::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 3px; }
 
-  .filter-chip.outline {
-    background: transparent;
-    color: var(--ink-secondary);
-    border-color: var(--border-strong);
-  }
-  .filter-chip.outline:hover { border-color: var(--ink); color: var(--ink); }
+  .sidebar-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; text-align: center; gap: 8px; }
+  .sidebar-empty-icon { width: 40px; height: 40px; color: var(--ink-disabled); margin-bottom: 4px; }
+  .sidebar-empty p { font-size: 13.5px; color: var(--ink-tertiary); max-width: 200px; line-height: 1.5; }
 
-  .sidebar-stats {
-    padding: 0 20px 14px;
-    display: flex;
-    gap: 16px;
-  }
+  .conn-item { padding: 12px 20px; border-bottom: 1px solid var(--border); cursor: pointer; position: relative; transition: background 0.12s; }
+  .conn-item:hover { background: var(--surface-2); }
+  .conn-item { border-left: 3px solid transparent; } .conn-item.active { background: var(--surface-2); border-left-color: var(--primary); }
+  .conn-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+  .conn-meta { font-size: 12px; color: var(--ink-tertiary); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .conn-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+  .conn-note-preview { font-size: 11.5px; color: var(--ink-tertiary); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-style: italic; }
+  .flagged-pip { position: absolute; top: 12px; right: 14px; display: flex; align-items: center; color: var(--ink-secondary); }
 
-  .stat-item {
-    font-size: 12.5px;
-    color: var(--ink-tertiary);
-  }
+  /* ── TAG ── */
+  .tag { background: rgba(167,200,204,0.2); color: var(--ink); font-size: 11.5px; font-weight: 500; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(167,200,204,0.5); display: inline-flex; align-items: center; gap: 4px; }
+  .tag-x { display: none; width: 13px; height: 13px; border-radius: 50%; background: rgba(17,17,17,0.12); color: var(--ink-secondary); font-size: 10px; line-height: 13px; text-align: center; cursor: pointer; flex-shrink: 0; align-items: center; justify-content: center; font-style: normal; }
+  .detail-edit-mode .tag-x { display: inline-flex; }
+  .tag-x:hover { background: #fde8e8; color: #c0392b; }
+  .tag-autocomplete { position: absolute; top: 100%; left: 0; right: 0; z-index: 50; background: var(--white); border: 1px solid var(--border-strong); border-radius: var(--r-sm); box-shadow: var(--shadow-md); max-height: 140px; overflow-y: auto; margin-top: 2px; }
+  .tag-autocomplete-item { padding: 7px 12px; font-size: 13px; cursor: pointer; color: var(--ink); transition: background 0.1s; }
+  .tag-autocomplete-item:hover { background: var(--surface); }
+  .tags-input-wrap { position: relative; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: var(--r-sm); background: var(--surface); min-height: 40px; cursor: text; }
+  .tag-input-field { border: none; background: transparent; font-family: var(--font-body); font-size: 13px; color: var(--ink); outline: none; flex: 1; min-width: 80px; }
+  .tag-input-field::placeholder { color: var(--ink-disabled); }
 
-  .stat-item strong {
-    color: var(--ink);
-    font-weight: 600;
-    font-size: 13px;
-  }
-
-  .sidebar-empty {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 24px;
-    text-align: center;
-    gap: 8px;
-  }
-
-  .sidebar-empty-icon {
-    width: 40px;
-    height: 40px;
-    color: var(--ink-disabled);
-    margin-bottom: 4px;
-  }
-
-  .sidebar-empty p {
-    font-size: 13.5px;
-    color: var(--ink-tertiary);
-    max-width: 200px;
-    line-height: 1.5;
-  }
+  /* ── VIEW / EDIT MODE ── */
+  .detail-view-mode .tags-input-wrap { pointer-events: none; background: transparent; border-color: transparent; }
+  .detail-view-mode .tag-input-field { display: none; }
+  .detail-view-mode .tag { cursor: default; }
+  .detail-view-mode .tag .tag-x { display: none; }
+  .detail-view-mode .save-bar { display: none; }
+  .detail-view-mode textarea { pointer-events: none; background: transparent; border-color: transparent; resize: none; color: var(--ink); }
 
   /* ── MAIN PANEL ── */
-  .main-panel {
+  .main-panel { display: flex; align-items: stretch; flex-direction: column; background: var(--surface); position: relative; overflow: hidden; }
+
+  /* ── ONBOARDING (new redesigned UI) ── */
+  #onboardingView {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 48px 48px 72px;
-    background: var(--surface);
-    position: relative;
-    overflow: hidden;
+    flex: 1;
   }
-
-  .main-panel-inner {
-    width: 100%;
-    max-width: 480px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .main-heading {
-    font-family: var(--font-display);
-    font-size: 32px;
-    letter-spacing: -0.025em;
-    color: var(--ink);
-    line-height: 1.15;
-    margin-bottom: 10px;
-    white-space: nowrap;
-    text-align: center;
-  }
-
-  .main-subtext {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-tertiary);
-    margin-bottom: 32px;
-    text-align: center;
-  }
-
-  .onboarding-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .onboarding-card {
-    background: var(--white);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    padding: 24px 28px;
-  }
-
-  .card-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 8px;
-  }
-
-  .card-icon {
-    width: 36px;
-    height: 36px;
-    background: var(--surface);
-    border-radius: var(--radius-sm);
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-    color: var(--ink);
-    border: 1px solid var(--border);
-  }
-
+  .main-panel-inner { width: 100%; max-width: 480px; position: relative; z-index: 1; }
+  .main-heading { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); line-height: 1.15; margin-bottom: 10px; white-space: nowrap; text-align: center; }
+  .main-subtext { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); margin-bottom: 32px; text-align: center; }
+  .onboarding-cards { display: flex; flex-direction: column; gap: 12px; }
+  .onboarding-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow-lg); padding: 24px 28px; }
+  .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .card-icon { width: 36px; height: 36px; background: var(--surface); border-radius: var(--r-sm); display: grid; place-items: center; flex-shrink: 0; color: var(--ink); border: 1px solid var(--border); }
   .card-icon svg { width: 16px; height: 16px; }
+  .card-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-tertiary); margin-bottom: 2px; }
+  .card-title { font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.25; }
+  .card-desc { font-size: 13.5px; color: var(--ink-secondary); line-height: 1.6; margin-bottom: 20px; padding-left: 48px; }
+  .card-actions { display: flex; gap: 8px; padding-left: 48px; }
+  .card-hint { font-size: 11.5px; color: var(--ink-tertiary); line-height: 1.5; margin-top: 12px; padding-left: 48px; }
+  .card-returning { background: var(--surface-2); border: 1px solid var(--border); }
+  .card-returning .card-icon { background: var(--white); }
 
-  .card-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--ink-tertiary);
-    margin-bottom: 2px;
-  }
+  /* ── DETAIL VIEW ── */
+  /* ── DETAIL PANEL LAYOUT ── */
+  .detail-wrap { padding: 32px 36px; display: flex; flex-direction: column; gap: 24px; max-width: 760px; }
 
-  .card-title {
-    font-family: var(--font-display);
-    font-size: 18px;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    line-height: 1.25;
-  }
+  /* Header */
+  .detail-header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .detail-identity { display: flex; align-items: center; gap: 16px; }
+  .detail-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px; font-weight: 600; flex-shrink: 0; }
+  .detail-name { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); line-height: 1.2; }
+  .detail-title { font-size: 13.5px; color: var(--ink-secondary); margin-top: 3px; }
+  .detail-company { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-top: 2px; }
+  .detail-header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
-  .card-desc {
-    font-size: 13.5px;
-    color: var(--ink-secondary);
-    line-height: 1.6;
-    margin-bottom: 20px;
-    padding-left: 48px;
-  }
+  /* Cards */
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-md); padding: 20px 24px; box-shadow: var(--shadow-sm); }
+  .card-label { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-tertiary); margin-bottom: 16px; }
 
-  .card-actions {
-    display: flex;
-    gap: 8px;
-    padding-left: 48px;
-  }
+  /* Meta grid — key/value pairs */
+  .meta-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
+  .meta-item {}
+  .meta-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-tertiary); margin-bottom: 4px; }
+  .meta-value { font-size: 14px; color: var(--ink); line-height: 1.4; }
+  .meta-value a { color: var(--link); text-decoration: none; font-weight: 500; }
+  .meta-value a:hover { text-decoration: underline; }
 
-  .card-hint {
-    font-size: 11.5px;
-    color: var(--ink-tertiary);
-    line-height: 1.5;
-    margin-top: 12px;
-    padding-left: 48px;
-  }
+  /* Tags section */
+  .detail-tags-section { display: flex; flex-direction: column; gap: 8px; }
+  .detail-section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-tertiary); }
+  .detail-tags-empty { font-size: 13.5px; color: var(--ink-disabled); font-style: italic; }
 
-  .card-divider {
-    height: 1px;
-    background: var(--border);
-    margin: 0 -28px 20px;
-  }
+  /* Notes section */
+  .detail-notes-section { display: flex; flex-direction: column; gap: 8px; }
+  .detail-notes-text { font-size: 14px; color: var(--ink-secondary); line-height: 1.7; white-space: pre-wrap; }
 
-  .card-returning {
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-  }
+  /* Edit fields */
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-tertiary); }
+  .field input, .field select { border: 1px solid var(--border-strong); border-radius: var(--r-sm); padding: 9px 12px; font-family: var(--font-body); font-size: 13.5px; color: var(--ink); background: var(--white); outline: none; transition: border-color 0.15s; }
+  .field input:focus, .field select:focus { border-color: var(--primary); }
+  .field textarea { border: 1px solid var(--border-strong); border-radius: var(--r-sm); padding: 10px 12px; font-family: var(--font-body); font-size: 13.5px; color: var(--ink); background: var(--white); resize: vertical; min-height: 110px; outline: none; transition: border-color 0.15s; line-height: 1.7; }
+  .field textarea:focus { border-color: var(--primary); }
+  .save-bar { display: flex; justify-content: flex-end; gap: 8px; padding-top: 4px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  .card-returning .card-icon {
-    background: var(--white);
-  }
+  /* Star banner */
+  .star-banner { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 14px; box-shadow: var(--shadow-sm); }
+  .star-banner.is-starred { background: rgba(167,200,204,0.12); border-color: rgba(167,200,204,0.5); }
+  .flag-banner-text { display: flex; flex-direction: column; gap: 2px; }
+  .flag-banner-text strong { font-size: 13.5px; color: var(--ink); }
+  .flag-banner-text span { font-size: 12.5px; color: var(--ink-tertiary); line-height: 1.5; }
+  .star-toggle { display: inline-flex; align-items: center; gap: 7px; padding: 8px 16px; border-radius: var(--r-md); border: 1.5px solid var(--border-strong); background: var(--white); font-family: var(--font-body); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; color: var(--ink-tertiary); white-space: nowrap; }
+  .star-toggle:hover { border-color: var(--accent); color: var(--ink); }
+  .star-toggle.starred { background: rgba(167,200,204,0.15); border-color: var(--accent); color: #92400e; }
+  .star-toggle svg { width: 14px; height: 14px; }
 
-  /* ── STATUS BAR ── */
-  .status-bar {
-    background: var(--white);
-    border-top: 1px solid var(--border);
-    padding: 12px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    font-size: 12px;
-    color: var(--ink-tertiary);
-    gap: 12px;
-    z-index: 50;
-  }
+  .sent-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: var(--r-sm); border: 1.5px solid var(--border-strong); background: var(--white); font-family: var(--font-body); font-size: 12.5px; font-weight: 500; cursor: pointer; transition: all 0.15s; color: var(--ink-tertiary); }
+  .sent-toggle:hover { border-color: var(--ink-secondary); color: var(--ink); }
+  .sent-toggle.sent { background: #f0fdf4; border-color: #86efac; color: #15803d; }
 
-  .status-bar-left {
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-  }
+  /* ── GREETINGS VIEW ── */
+  .greet-wrap { padding: 28px 32px; display: flex; flex-direction: column; gap: 18px; }
+  .greet-title-row { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .greet-title { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+  .greet-sub { font-size: 13px; color: var(--ink-tertiary); margin-top: 3px; }
 
-  .status-bar-right a {
-    color: var(--ink-secondary);
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .status-bar-right a:hover { text-decoration: underline; }
+  /* Season buttons — text only, no icons */
+  .season-strip { display: flex; gap: 6px; flex-wrap: wrap; }
+  .season-btn { padding: 7px 15px; border-radius: var(--r-sm); border: 1.5px solid var(--border-strong); background: var(--white); cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.15s; font-family: var(--font-body); color: var(--ink); }
+  .season-btn:hover { background: var(--surface-2); }
+  .season-btn.active { background: var(--primary); border-color: var(--primary); color: #1F1F1F; }
 
-  .status-warn {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: #92400e;
-    background: #fef3c7;
-    border: 1px solid #fde68a;
-    border-radius: var(--radius-sm);
-    padding: 4px 10px;
-    font-size: 12px;
-    font-weight: 500;
-  }
+  .prog-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px 20px; box-shadow: var(--shadow-sm); }
+  .prog-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .prog-top strong { font-size: 13.5px; font-weight: 600; }
+  .prog-top span { font-size: 12px; color: var(--ink-tertiary); }
+  .prog-bg { background: var(--surface-3); border-radius: 10px; height: 6px; overflow: hidden; }
+  .prog-fill { height: 100%; background: var(--primary); border-radius: 10px; transition: width 0.4s ease; }
+  .prog-sub { font-size: 12px; color: var(--ink-tertiary); margin-top: 6px; }
 
-  /* ── MODAL ── */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(17,17,17,0.45);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 200;
-    padding: 24px;
-    animation: fadeOverlay 0.2s ease;
-  }
+  .section-label { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-tertiary); margin-bottom: 10px; }
+  .greet-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); gap: 10px; }
+  .greet-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; box-shadow: var(--shadow-sm); transition: all 0.15s; position: relative; cursor: pointer; }
+  .greet-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .greet-card.sent { border-color: #86efac; background: #f0fdf4; opacity: 0.72; }
+  .greet-card-name { font-size: 14px; font-weight: 600; color: var(--ink); padding-right: 22px; }
+  .greet-card-meta { font-size: 11.5px; color: var(--ink-tertiary); margin-top: 2px; }
+  .greet-card-note { font-size: 11.5px; color: var(--ink-tertiary); margin-top: 8px; font-style: italic; line-height: 1.5; border-left: 2px solid var(--border-strong); padding-left: 8px; }
+  .greet-card-actions { display: flex; gap: 5px; margin-top: 10px; flex-wrap: wrap; }
+  .gsent-icon { position: absolute; top: 12px; right: 12px; }
 
-  @keyframes fadeOverlay {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
+  .greet-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; text-align: center; gap: 12px; }
+  .greet-empty svg { width: 40px; height: 40px; color: var(--ink-disabled); }
+  .greet-empty h3 { font-size: 18px; font-weight: 600; color: var(--ink); }
+  .greet-empty p { font-size: 13.5px; color: var(--ink-tertiary); max-width: 300px; line-height: 1.6; }
 
-  .modal {
-    background: var(--white);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-lg);
-    width: 100%;
-    max-width: 500px;
-    padding: 0;
-    overflow: hidden;
-    animation: slideModal 0.22s cubic-bezier(0.34, 1.36, 0.64, 1);
-  }
+  /* ── MODALS ── */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(17,17,17,0.45); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal { background: var(--white); border-radius: var(--r-xl); box-shadow: var(--shadow-lg); width: 100%; max-width: 500px; overflow: hidden; animation: slideModal 0.22s cubic-bezier(0.34, 1.2, 0.64, 1); }
+  @keyframes slideModal { from { opacity: 0; transform: translateY(14px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-  @keyframes slideModal {
-    from { opacity: 0; transform: translateY(18px) scale(0.97); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-
-  .modal-header {
-    padding: 32px 36px 0;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-  }
-
+  .modal-header { padding: 32px 36px 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
   .modal-header-content {}
-
-  .modal-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--ink-tertiary);
-    margin-bottom: 8px;
-  }
-
+  .modal-label { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-tertiary); margin-bottom: 8px; }
   .modal-label svg { width: 12px; height: 12px; }
-
-  .modal-header h2 {
-    font-family: var(--font-display);
-    font-size: 26px;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    line-height: 1.2;
-  }
-
-  .modal-close {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    width: 32px;
-    height: 32px;
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-    color: var(--ink-secondary);
-    transition: background 0.15s, color 0.15s;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
+  .modal-label-row { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-tertiary); margin-bottom: 7px; }
+  .modal-header h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); line-height: 1.2; }
+  .modal-close { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); width: 32px; height: 32px; display: grid; place-items: center; cursor: pointer; color: var(--ink-secondary); transition: background 0.15s, color 0.15s; flex-shrink: 0; margin-top: 2px; }
   .modal-close:hover { background: var(--surface-2); color: var(--ink); }
   .modal-close svg { width: 14px; height: 14px; }
 
-  .modal-body {
-    padding: 24px 36px;
-  }
+  .modal-body { padding: 24px 36px; max-height: 65vh; overflow-y: auto; }
+  .modal-body::-webkit-scrollbar { width: 3px; }
+  .modal-body::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 3px; }
 
-  .modal-features {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-bottom: 28px;
-  }
-
-  .feature-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    padding: 14px 16px;
-    border-radius: var(--radius-md);
-    transition: background 0.12s;
-  }
+  .modal-features { display: flex; flex-direction: column; gap: 4px; margin-bottom: 28px; }
+  .feature-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: var(--r-md); transition: background 0.12s; }
   .feature-row:hover { background: var(--surface); }
-
-  .feature-icon {
-    width: 36px;
-    height: 36px;
-    background: var(--surface-2);
-    border-radius: var(--radius-sm);
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-    color: var(--ink);
-    border: 1px solid var(--border);
-  }
-
+  .feature-icon { width: 36px; height: 36px; background: var(--surface-2); border-radius: var(--r-sm); display: grid; place-items: center; flex-shrink: 0; color: var(--ink); border: 1px solid var(--border); }
   .feature-icon svg { width: 16px; height: 16px; }
+  .feature-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 2px; line-height: 1.3; }
+  .feature-desc { font-size: 13px; color: var(--ink-secondary); line-height: 1.5; }
+  .feature-desc code, .modal-warning code { font-family: "SF Mono","Fira Code",monospace; font-size: 11.5px; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; color: var(--ink); border: 1px solid var(--border); }
 
-  .feature-text {}
-
-  .feature-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 2px;
-    line-height: 1.3;
-  }
-
-  .feature-desc {
-    font-size: 13px;
-    color: var(--ink-secondary);
-    line-height: 1.5;
-  }
-
-  .feature-desc code {
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 12px;
-    background: var(--surface-2);
-    padding: 1px 5px;
-    border-radius: 4px;
-    color: var(--ink);
-    border: 1px solid var(--border);
-  }
-
-  .modal-warning {
-    background: #fffbeb;
-    border: 1px solid #fde68a;
-    border-radius: var(--radius-md);
-    padding: 13px 16px;
-    display: flex;
-    gap: 11px;
-    align-items: flex-start;
-    margin-bottom: 28px;
-  }
-
-  .modal-warning-icon {
-    width: 18px;
-    height: 18px;
-    color: #d97706;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .modal-warning p {
-    font-size: 13px;
-    color: #78350f;
-    line-height: 1.55;
-  }
-
+  .modal-warning { background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--r-md); padding: 13px 16px; display: flex; gap: 11px; align-items: flex-start; margin-bottom: 28px; }
+  .modal-warning svg { width: 18px; height: 18px; color: #d97706; flex-shrink: 0; margin-top: 1px; }
+  .modal-warning p { font-size: 13px; color: #78350f; line-height: 1.55; }
   .modal-warning strong { font-weight: 600; }
 
-  .modal-footer {
-    padding: 0 36px 32px;
-    display: flex;
-    gap: 10px;
-  }
+  .import-steps { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; margin-bottom: 16px; font-size: 13px; line-height: 1.8; }
+  .import-steps strong { color: var(--accent-warm); }
+  .import-steps ol { padding-left: 18px; }
+  .import-steps .note { font-size: 11.5px; color: var(--ink-tertiary); margin-top: 6px; display: block; }
 
-  .modal-footer .btn-primary {
-    flex: 1;
-    justify-content: center;
-    font-size: 13.5px;
-    padding: 12px;
-  }
+  .modal-footer { padding: 0 36px 32px; display: flex; gap: 10px; }
+  .modal-footer .btn-primary, .modal-footer .btn-secondary { flex: 1; justify-content: center; font-size: 13.5px; padding: 12px; }
+  .modal-form { display: flex; flex-direction: column; gap: 12px; }
+  #draftPreview { min-height: 150px; font-style: italic; line-height: 1.7; }
 
-  .modal-footer .btn-secondary {
-    flex: 1;
-    justify-content: center;
-    font-size: 13.5px;
-    padding: 12px;
-  }
+  /* ── STATUS BAR ── */
+  .status-bar { background: var(--white); border-top: 1px solid var(--border); padding: 9px 32px; display: flex; align-items: center; justify-content: space-between; position: fixed; bottom: 0; left: 0; right: 0; font-size: 11.5px; color: var(--ink-tertiary); gap: 12px; z-index: 90; }
+  .status-bar-left { display: flex; align-items: flex-start; gap: 6px; }
+  .status-bar-right { display: flex; align-items: center; gap: 10px; }
+  .status-warn { display: flex; align-items: center; gap: 5px; color: var(--warning-text); background: var(--warning-bg); border: 1px solid #F5D9A8; border-radius: var(--r-sm); padding: 4px 10px; font-size: 11.5px; font-weight: 500; }
+  .status-warn svg { width: 12px; height: 12px; flex-shrink: 0; }
+  .status-link { color: var(--link); text-decoration: none; font-weight: 500; }
+  .status-link:hover { text-decoration: underline; }
+  .status-credit a { color: var(--link); text-decoration: none; font-weight: 500; }
+  .status-credit a:hover { text-decoration: underline; }
 
-
-
-  /* Add extra bottom padding so status bar doesn't cover content */
-  .app-wrapper { padding-bottom: 80px; }
+  /* ── TOASTS ── */
+  .toast-wrap { position: fixed; bottom: 48px; right: 20px; display: flex; flex-direction: column; gap: 6px; z-index: 300; }
+  .toast { background: var(--ink); color: var(--white); padding: 9px 14px; border-radius: var(--r-sm); font-size: 13px; box-shadow: var(--shadow-lg); animation: su 0.18s ease; }
+  .toast.success { border-left: 3px solid #4ade80; }
+  .toast.info { border-left: 3px solid #fbbf24; }
+  @keyframes su { from { transform: translateY(5px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 </style>
 </head>
 <body>
@@ -677,14 +328,14 @@
 <!-- TOP NAV -->
 <nav class="topnav">
   <a class="nav-brand" href="#">
-    <svg height="40" viewBox="0 0 336 102" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <path d="M310.947 63.48V36.0182H315.922V48.6361H316.257L326.971 36.0182H333.045L322.425 48.3411L333.139 63.48H327.159L318.966 51.7068L315.922 55.3005V63.48H310.947Z" fill="#C85C2A"/>
-      <path d="M284.878 63.48V36.0182H295.176C297.286 36.0182 299.056 36.3847 300.486 37.1177C301.925 37.8508 303.011 38.8788 303.744 40.2018C304.486 41.5159 304.857 43.049 304.857 44.8011C304.857 46.5622 304.482 48.0908 303.731 49.3871C302.989 50.6743 301.894 51.6711 300.446 52.3773C298.998 53.0746 297.219 53.4232 295.109 53.4232H287.774V49.2932H294.438C295.672 49.2932 296.682 49.1233 297.469 48.7836C298.256 48.435 298.837 47.9299 299.212 47.2684C299.597 46.598 299.789 45.7755 299.789 44.8011C299.789 43.8267 299.597 42.9954 299.212 42.3071C298.828 41.6098 298.242 41.0824 297.456 40.7248C296.669 40.3583 295.654 40.175 294.412 40.175H289.853V63.48H284.878ZM299.065 51.0364L305.863 63.48H300.312L293.634 51.0364H299.065Z" fill="#C85C2A"/>
-      <path d="M278.664 49.7491C278.664 52.708 278.11 55.2424 277.001 57.352C275.902 59.4528 274.4 61.0619 272.496 62.1793C270.601 63.2967 268.451 63.8555 266.046 63.8555C263.642 63.8555 261.487 63.2967 259.583 62.1793C257.688 61.053 256.186 59.4394 255.078 57.3386C253.978 55.2289 253.428 52.6991 253.428 49.7491C253.428 46.7902 253.978 44.2603 255.078 42.1595C256.186 40.0499 257.688 38.4363 259.583 37.3189C261.487 36.2014 263.642 35.6427 266.046 35.6427C268.451 35.6427 270.601 36.2014 272.496 37.3189C274.4 38.4363 275.902 40.0499 277.001 42.1595C278.11 44.2603 278.664 46.7902 278.664 49.7491ZM273.663 49.7491C273.663 47.6662 273.336 45.9096 272.684 44.4793C272.04 43.0401 271.146 41.9539 270.002 41.2209C268.858 40.4789 267.539 40.108 266.046 40.108C264.553 40.108 263.235 40.4789 262.091 41.2209C260.946 41.9539 260.048 43.0401 259.395 44.4793C258.752 45.9096 258.43 47.6662 258.43 49.7491C258.43 51.832 258.752 53.593 259.395 55.0323C260.048 56.4626 260.946 57.5487 262.091 58.2907C263.235 59.0237 264.553 59.3902 266.046 59.3902C267.539 59.3902 268.858 59.0237 270.002 58.2907C271.146 57.5487 272.04 56.4626 272.684 55.0323C273.336 53.593 273.663 51.832 273.663 49.7491Z" fill="#C85C2A"/>
-      <path d="M221.851 63.48L214.101 36.0182H219.451L224.399 56.1989H224.654L229.937 36.0182H234.805L240.101 56.2123H240.342L245.29 36.0182H250.641L242.89 63.48H237.982L232.485 44.2111H232.27L226.759 63.48H221.851Z" fill="#C85C2A"/>
-      <path d="M188.427 40.1884V36.0182H210.338V40.1884H201.85V63.48H196.915V40.1884H188.427Z" fill="#C85C2A"/>
-      <path d="M165.187 63.48V36.0182H183.048V40.1884H170.162V47.6439H182.123V51.8141H170.162V59.3098H183.156V63.48H165.187Z" fill="#C85C2A"/>
-      <path d="M158.256 36.0182V63.48H153.831L140.892 44.7743H140.664V63.48H135.689V36.0182H140.141L153.067 54.7373H153.308V36.0182H158.256Z" fill="#C85C2A"/>
+    <svg height="40" viewBox="0 0 336 102" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M310.947 63.48V36.0182H315.922V48.6361H316.257L326.971 36.0182H333.045L322.425 48.3411L333.139 63.48H327.159L318.966 51.7068L315.922 55.3005V63.48H310.947Z" fill="#4595A0"/>
+      <path d="M284.878 63.48V36.0182H295.176C297.286 36.0182 299.056 36.3847 300.486 37.1177C301.925 37.8508 303.011 38.8788 303.744 40.2018C304.486 41.5159 304.857 43.049 304.857 44.8011C304.857 46.5622 304.482 48.0908 303.731 49.3871C302.989 50.6743 301.894 51.6711 300.446 52.3773C298.998 53.0746 297.219 53.4232 295.109 53.4232H287.774V49.2932H294.438C295.672 49.2932 296.682 49.1233 297.469 48.7836C298.256 48.435 298.837 47.9299 299.212 47.2684C299.597 46.598 299.789 45.7755 299.789 44.8011C299.789 43.8267 299.597 42.9954 299.212 42.3071C298.828 41.6098 298.242 41.0824 297.456 40.7248C296.669 40.3583 295.654 40.175 294.412 40.175H289.853V63.48H284.878ZM299.065 51.0364L305.863 63.48H300.312L293.634 51.0364H299.065Z" fill="#4595A0"/>
+      <path d="M278.664 49.7491C278.664 52.708 278.11 55.2424 277.001 57.352C275.902 59.4528 274.4 61.0619 272.496 62.1793C270.601 63.2967 268.451 63.8555 266.046 63.8555C263.642 63.8555 261.487 63.2967 259.583 62.1793C257.688 61.053 256.186 59.4394 255.078 57.3386C253.978 55.2289 253.428 52.6991 253.428 49.7491C253.428 46.7902 253.978 44.2603 255.078 42.1595C256.186 40.0499 257.688 38.4363 259.583 37.3189C261.487 36.2014 263.642 35.6427 266.046 35.6427C268.451 35.6427 270.601 36.2014 272.496 37.3189C274.4 38.4363 275.902 40.0499 277.001 42.1595C278.11 44.2603 278.664 46.7902 278.664 49.7491ZM273.663 49.7491C273.663 47.6662 273.336 45.9096 272.684 44.4793C272.04 43.0401 271.146 41.9539 270.002 41.2209C268.858 40.4789 267.539 40.108 266.046 40.108C264.553 40.108 263.235 40.4789 262.091 41.2209C260.946 41.9539 260.048 43.0401 259.395 44.4793C258.752 45.9096 258.43 47.6662 258.43 49.7491C258.43 51.832 258.752 53.593 259.395 55.0323C260.048 56.4626 260.946 57.5487 262.091 58.2907C263.235 59.0237 264.553 59.3902 266.046 59.3902C267.539 59.3902 268.858 59.0237 270.002 58.2907C271.146 57.5487 272.04 56.4626 272.684 55.0323C273.336 53.593 273.663 51.832 273.663 49.7491Z" fill="#4595A0"/>
+      <path d="M221.851 63.48L214.101 36.0182H219.451L224.399 56.1989H224.654L229.937 36.0182H234.805L240.101 56.2123H240.342L245.29 36.0182H250.641L242.89 63.48H237.982L232.485 44.2111H232.27L226.759 63.48H221.851Z" fill="#4595A0"/>
+      <path d="M188.427 40.1884V36.0182H210.338V40.1884H201.85V63.48H196.915V40.1884H188.427Z" fill="#4595A0"/>
+      <path d="M165.187 63.48V36.0182H183.048V40.1884H170.162V47.6439H182.123V51.8141H170.162V59.3098H183.156V63.48H165.187Z" fill="#4595A0"/>
+      <path d="M158.256 36.0182V63.48H153.831L140.892 44.7743H140.664V63.48H135.689V36.0182H140.141L153.067 54.7373H153.308V36.0182H158.256Z" fill="#4595A0"/>
       <path d="M112.335 71.2037C111.727 71.2037 111.186 71.1545 110.713 71.0562C110.239 70.9668 109.886 70.8684 109.653 70.7612L111.182 67.4759C111.888 67.6726 112.518 67.7486 113.073 67.7039C113.636 67.6592 114.163 67.4268 114.655 67.0066C115.147 66.5865 115.647 65.925 116.157 65.0221L116.908 63.6678L112.871 42.8837H117.001L119.549 58.9075H119.764L127.648 42.8837H132.114L119.764 66.2021C119.183 67.3106 118.521 68.2313 117.779 68.9643C117.046 69.7063 116.224 70.265 115.312 70.6405C114.409 71.0159 113.417 71.2037 112.335 71.2037Z" fill="black"/>
       <path d="M76.9299 63.48L80.3626 42.8836H84.211L83.6478 46.2359H83.9026C84.5284 45.1006 85.3776 44.2156 86.4503 43.5809C87.532 42.9373 88.7567 42.6154 90.1244 42.6154C91.4832 42.6154 92.5783 42.9373 93.4097 43.5809C94.25 44.2245 94.7997 45.1095 95.059 46.2359H95.2735C95.935 45.1274 96.8603 44.2469 98.0492 43.5943C99.2382 42.9417 100.575 42.6154 102.059 42.6154C103.909 42.6154 105.33 43.2054 106.323 44.3854C107.324 45.5565 107.628 47.3176 107.234 49.6686L104.928 63.48H100.905L103.158 50.0441C103.382 48.6406 103.167 47.6304 102.514 47.0136C101.862 46.3879 101.008 46.075 99.9533 46.075C98.6482 46.075 97.5665 46.4773 96.7083 47.2818C95.8501 48.0774 95.3227 49.101 95.126 50.3525L92.9135 63.48H88.931L91.224 49.7893C91.4028 48.6629 91.1972 47.7645 90.6072 47.0941C90.0261 46.4147 89.1769 46.075 88.0594 46.075C87.2996 46.075 86.5621 46.2761 85.8469 46.6784C85.1407 47.0807 84.5373 47.6349 84.0367 48.3411C83.5361 49.0473 83.2098 49.8608 83.0578 50.7816L80.9392 63.48H76.9299Z" fill="black"/>
       <path d="M12 53C12.5484 47 16.9355 35.5 29 32" stroke="black" stroke-width="3" stroke-linecap="round"/>
@@ -695,293 +346,1011 @@
       <circle cx="15.6112" cy="66.6112" r="7" transform="rotate(-120 15.6112 66.6112)" stroke="black" stroke-width="3"/>
     </svg>
   </a>
-
   <div class="nav-actions">
-    <button class="btn btn-ghost">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M2 11V13H4L11.5 5.5L9.5 3.5L2 11Z"/><path d="M13 2L14 3L13.5 3.5L11.5 1.5L12 1L13 2Z" fill="currentColor" stroke="none"/>
-      </svg>
+    <button class="btn btn-ghost" onclick="openImportModal()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 11V13H4L11.5 5.5L9.5 3.5L2 11Z"/><path d="M13 2L14 3L13.5 3.5L11.5 1.5L12 1L13 2Z" fill="currentColor" stroke="none"/></svg>
       Import CSV
     </button>
-    <button class="btn btn-ghost">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 12H13M8 2V10M5 7L8 10L11 7"/>
-      </svg>
+    <button class="btn btn-ghost" onclick="saveData()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12H13M8 2V10M5 7L8 10L11 7"/></svg>
       Save JSON
     </button>
-    <button class="btn btn-ghost">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 4H13M5 9L8 6L11 9M8 14V6"/>
-      </svg>
+    <button class="btn btn-ghost" onclick="loadDataFromFile()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4H13M5 9L8 6L11 9M8 14V6"/></svg>
       Load JSON
     </button>
-    <button class="btn btn-dark" onclick="document.getElementById('modal').style.display='flex'">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/>
-      </svg>
+    <button class="btn btn-dark" onclick="addManualConnection()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
       Add Contact
     </button>
   </div>
 </nav>
 
-<!-- APP LAYOUT -->
+<!-- APP -->
 <div class="app-wrapper">
   <div class="app-layout">
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-tabs">
-        <button class="tab-btn active">
+        <button class="tab-btn active" id="tab-connections" onclick="switchTab('connections',this)">
           Connections
-          <span class="badge">0</span>
+          <span class="badge active-badge" id="tabBadgeConn">0</span>
         </button>
-        <button class="tab-btn">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;">
-            <path d="M8 2L9.5 6H14L10.5 8.5L12 12.5L8 10L4 12.5L5.5 8.5L2 6H6.5L8 2Z"/>
-          </svg>
+        <button class="tab-btn" id="tab-greetings" onclick="switchTab('greetings',this)">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;"><path d="M8 2L9.5 6H14L10.5 8.5L12 12.5L8 10L4 12.5L5.5 8.5L2 6H6.5L8 2Z"/></svg>
           Starred
-          <span class="badge">0</span>
+          <span class="badge" id="greetCount">0</span>
         </button>
       </div>
 
       <div class="sidebar-search">
         <div class="search-input-wrap">
-          <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-            <circle cx="6.5" cy="6.5" r="4"/>
-            <line x1="10" y1="10" x2="14" y2="14"/>
-          </svg>
-          <input class="search-input" type="text" placeholder="Search name, company, tag…" />
+          <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="4"/><line x1="10" y1="10" x2="14" y2="14"/></svg>
+          <input class="search-input" type="text" id="searchInput" placeholder="Search name, company, tag…" oninput="renderList()">
         </div>
       </div>
 
-      <div class="sidebar-filters">
-        <button class="filter-chip">All</button>
-        <button class="filter-chip outline">With notes</button>
-        <button class="filter-chip outline">Starred</button>
+      <div class="sidebar-filters" id="tagFilters" style="display:none;">
+        <label class="tag-filter-label">Filter by tag</label>
+        <select class="tag-filter-select" id="tagFilterSelect" onchange="setTagFilter(this.value)">
+          <option value="all">All tags</option>
+        </select>
       </div>
 
       <div class="sidebar-stats">
-        <span class="stat-item"><strong>0</strong> total</span>
-        <span class="stat-item"><strong>0</strong> with notes</span>
-        <span class="stat-item"><strong>0</strong> starred</span>
+        <span class="stat-item"><strong id="statTotal">0</strong> total</span>
+        <span class="stat-item"><strong id="statNotes">0</strong> with notes</span>
+        <span class="stat-item"><strong id="statFlagged">0</strong> starred</span>
       </div>
 
-      <div class="sidebar-empty">
-        <svg class="sidebar-empty-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="20" cy="16" r="6"/>
-          <path d="M8 34C8 28 13 24 20 24C27 24 32 28 32 34"/>
-          <line x1="26" y1="10" x2="30" y2="10"/>
-          <line x1="28" y1="8" x2="28" y2="12"/>
-        </svg>
-        <p>No connections yet. Import your LinkedIn CSV or add someone manually.</p>
+      <div class="connection-list" id="connectionList">
+        <div class="sidebar-empty" id="sidebarEmpty">
+          <svg class="sidebar-empty-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="16" r="6"/><path d="M8 34C8 28 13 24 20 24C27 24 32 28 32 34"/><line x1="26" y1="10" x2="30" y2="10"/><line x1="28" y1="8" x2="28" y2="12"/></svg>
+          <p>No connections yet. Import your LinkedIn CSV or add someone manually.</p>
+        </div>
       </div>
     </aside>
 
-    <!-- MAIN ONBOARDING PANEL -->
-    <main class="main-panel">
-      <div class="main-panel-inner">
+    <!-- MAIN -->
+    <main class="main-panel" id="mainPanel">
 
-        <h1 class="main-heading">Your Connection Journal</h1>
-        <p class="main-subtext">Know your professional network</p>
+      <!-- ONBOARDING — new redesigned UI -->
+      <div id="onboardingView">
+        <div class="main-panel-inner">
+          <h1 class="main-heading">Your Connection Journal</h1>
+          <p class="main-subtext">Know your professional network</p>
 
-        <div class="onboarding-cards">
-
-          <!-- Card 1: New user -->
-          <div class="onboarding-card">
-            <div class="card-header">
-              <div class="card-icon">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 4H13M5 9L8 6L11 9M8 14V6"/>
-                </svg>
+          <div class="onboarding-cards">
+            <!-- Card 1: New user -->
+            <div class="onboarding-card">
+              <div class="card-header">
+                <div class="card-icon">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 4H13M5 9L8 6L11 9M8 14V6"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="card-label">Getting started</p>
+                  <h2 class="card-title">Import your LinkedIn connections</h2>
+                </div>
               </div>
-              <div>
-                <p class="card-label">Getting started</p>
-                <h2 class="card-title">Import your LinkedIn connections</h2>
+              <p class="card-desc">Import your connections CSV from LinkedIn, then add notes, tags, and context for each person — fully searchable.</p>
+              <div class="card-actions">
+                <button class="btn btn-primary" onclick="openImportModal()">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 4H13M5 9L8 6L11 9M8 14V6"/></svg>
+                  Import LinkedIn CSV
+                </button>
+                <button class="btn btn-secondary" onclick="addManualConnection()">Add manually</button>
               </div>
+              <p class="card-hint">LinkedIn → Settings → Data Privacy → Download your data → Download larger data archive</p>
             </div>
-            <p class="card-desc">Import your connections CSV from LinkedIn, then add notes, tags, and context for each person — fully searchable.</p>
-            <div class="card-actions">
-              <button class="btn btn-primary">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
-                  <path d="M3 4H13M5 9L8 6L11 9M8 14V6"/>
-                </svg>
-                Import LinkedIn CSV
-              </button>
-              <button class="btn btn-secondary" onclick="document.getElementById('modal').style.display='flex'">
-                Add manually
-              </button>
-            </div>
-            <p class="card-hint">LinkedIn → Settings → Data Privacy → Download your data → Download larger data archive</p>
-          </div>
 
-          <!-- Card 2: Returning user -->
-          <div class="onboarding-card card-returning">
-            <div class="card-header">
-              <div class="card-icon">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="3" width="12" height="10" rx="1.5"/>
-                  <path d="M5 3V2M11 3V2"/>
-                  <path d="M2 7H14"/>
-                  <path d="M5 10H8"/>
-                </svg>
+            <!-- Card 2: Returning user -->
+            <div class="onboarding-card card-returning">
+              <div class="card-header">
+                <div class="card-icon">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 3V2M11 3V2"/><path d="M2 7H14"/><path d="M5 10H8"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="card-label">Returning user</p>
+                  <h2 class="card-title">Continue where you left off</h2>
+                </div>
               </div>
-              <div>
-                <p class="card-label">Returning user</p>
-                <h2 class="card-title">Continue where you left off</h2>
+              <p class="card-desc">Already have a saved <code style="font-family:'SF Mono','Fira Code',monospace;font-size:12px;background:var(--surface-3);padding:1px 5px;border-radius:4px;border:1px solid var(--border);">my-network.json</code> file? Load it to restore all your contacts, notes, and starred connections instantly.</p>
+              <div class="card-actions">
+                <button class="btn btn-secondary" onclick="loadDataFromFile()">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 4H13M5 9L8 6L11 9M8 14V6"/></svg>
+                  Load JSON file
+                </button>
               </div>
-            </div>
-            <p class="card-desc">Already have a saved <code style="font-family:'SF Mono','Fira Code',monospace;font-size:12px;background:#e5e0d6;padding:1px 5px;border-radius:4px;border:1px solid rgba(17,17,17,0.1);">my-network.json</code> file? Load it to restore all your contacts, notes, and starred connections instantly.</p>
-            <div class="card-actions">
-              <button class="btn btn-secondary">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
-                  <path d="M3 4H13M5 9L8 6L11 9M8 14V6"/>
-                </svg>
-                Load JSON file
-              </button>
             </div>
           </div>
-
         </div>
       </div>
-    </main>
 
+      <!-- DETAIL VIEW -->
+      <div id="detailView" style="display:none"></div>
+
+      <!-- GREETINGS VIEW -->
+      <div id="greetingsView" style="display:none"></div>
+
+    </main>
   </div>
 </div>
 
 <!-- STATUS BAR -->
 <footer class="status-bar">
   <div class="status-bar-left">
-    <span>Built by <a href="https://www.linkedin.com/in/rutuupadhyaya/" target="_blank" rel="noopener" style="color:var(--ink-secondary);text-decoration:underline;text-underline-offset:2px;">Rutu Upadhyaya</a> · <a href="http://enso9.com/" target="_blank" rel="noopener" style="color:var(--ink-secondary);text-decoration:underline;text-underline-offset:2px;">© enso9</a> · <a href="https://ko-fi.com/rutuenso9" target="_blank" rel="noopener" style="color:var(--accent-warm);text-decoration:underline;text-underline-offset:2px;font-weight:500;">☕ Support this project</a></span>
+    <span class="status-credit">Built by <a href="https://www.linkedin.com/in/rutuupadhyaya/" target="_blank" rel="noopener">Rutu Upadhyaya</a> · <a href="http://enso9.com/" target="_blank" rel="noopener">© enso9</a> · <a href="https://ko-fi.com/rutuenso9" target="_blank" rel="noopener">☕ Support</a></span>
   </div>
-  <div style="display:flex;align-items:center;gap:12px;">
+  <div class="status-bar-right">
     <span class="status-warn">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 12H13M8 2V10M5 7L8 10L11 7"/>
-      </svg>
-      <span>Changes not saved automatically.<br>Always download your JSON file to save changes.</span>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2L14 13H2L8 2Z"/><line x1="8" y1="7" x2="8" y2="10"/><circle cx="8" cy="12" r="0.5" fill="currentColor"/></svg>
+      Changes not saved automatically — download JSON after each session
     </span>
-    <a class="status-bar-right" href="#" onclick="event.preventDefault();document.getElementById('modal').style.display='flex'">About this app</a>
+    <a class="status-link" href="#" onclick="openOnboardModal();return false;">About</a>
   </div>
 </footer>
 
-<!-- MODAL: WELCOME / ABOUT -->
-<div class="modal-overlay" id="modal" style="display:none;" onclick="if(event.target===this)this.style.display='none'">
+<!-- MODAL: IMPORT CSV -->
+<div class="modal-overlay" id="importModal">
   <div class="modal">
-
     <div class="modal-header">
-      <div class="modal-header-content">
-        <div style="margin-bottom:14px;">
-          <svg height="32" viewBox="0 0 336 102" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M310.947 63.48V36.0182H315.922V48.6361H316.257L326.971 36.0182H333.045L322.425 48.3411L333.139 63.48H327.159L318.966 51.7068L315.922 55.3005V63.48H310.947Z" fill="#C85C2A"/><path d="M284.878 63.48V36.0182H295.176C297.286 36.0182 299.056 36.3847 300.486 37.1177C301.925 37.8508 303.011 38.8788 303.744 40.2018C304.486 41.5159 304.857 43.049 304.857 44.8011C304.857 46.5622 304.482 48.0908 303.731 49.3871C302.989 50.6743 301.894 51.6711 300.446 52.3773C298.998 53.0746 297.219 53.4232 295.109 53.4232H287.774V49.2932H294.438C295.672 49.2932 296.682 49.1233 297.469 48.7836C298.256 48.435 298.837 47.9299 299.212 47.2684C299.597 46.598 299.789 45.7755 299.789 44.8011C299.789 43.8267 299.597 42.9954 299.212 42.3071C298.828 41.6098 298.242 41.0824 297.456 40.7248C296.669 40.3583 295.654 40.175 294.412 40.175H289.853V63.48H284.878ZM299.065 51.0364L305.863 63.48H300.312L293.634 51.0364H299.065Z" fill="#C85C2A"/><path d="M278.664 49.7491C278.664 52.708 278.11 55.2424 277.001 57.352C275.902 59.4528 274.4 61.0619 272.496 62.1793C270.601 63.2967 268.451 63.8555 266.046 63.8555C263.642 63.8555 261.487 63.2967 259.583 62.1793C257.688 61.053 256.186 59.4394 255.078 57.3386C253.978 55.2289 253.428 52.6991 253.428 49.7491C253.428 46.7902 253.978 44.2603 255.078 42.1595C256.186 40.0499 257.688 38.4363 259.583 37.3189C261.487 36.2014 263.642 35.6427 266.046 35.6427C268.451 35.6427 270.601 36.2014 272.496 37.3189C274.4 38.4363 275.902 40.0499 277.001 42.1595C278.11 44.2603 278.664 46.7902 278.664 49.7491ZM273.663 49.7491C273.663 47.6662 273.336 45.9096 272.684 44.4793C272.04 43.0401 271.146 41.9539 270.002 41.2209C268.858 40.4789 267.539 40.108 266.046 40.108C264.553 40.108 263.235 40.4789 262.091 41.2209C260.946 41.9539 260.048 43.0401 259.395 44.4793C258.752 45.9096 258.43 47.6662 258.43 49.7491C258.43 51.832 258.752 53.593 259.395 55.0323C260.048 56.4626 260.946 57.5487 262.091 58.2907C263.235 59.0237 264.553 59.3902 266.046 59.3902C267.539 59.3902 268.858 59.0237 270.002 58.2907C271.146 57.5487 272.04 56.4626 272.684 55.0323C273.336 53.593 273.663 51.832 273.663 49.7491Z" fill="#C85C2A"/><path d="M221.851 63.48L214.101 36.0182H219.451L224.399 56.1989H224.654L229.937 36.0182H234.805L240.101 56.2123H240.342L245.29 36.0182H250.641L242.89 63.48H237.982L232.485 44.2111H232.27L226.759 63.48H221.851Z" fill="#C85C2A"/><path d="M188.427 40.1884V36.0182H210.338V40.1884H201.85V63.48H196.915V40.1884H188.427Z" fill="#C85C2A"/><path d="M165.187 63.48V36.0182H183.048V40.1884H170.162V47.6439H182.123V51.8141H170.162V59.3098H183.156V63.48H165.187Z" fill="#C85C2A"/><path d="M158.256 36.0182V63.48H153.831L140.892 44.7743H140.664V63.48H135.689V36.0182H140.141L153.067 54.7373H153.308V36.0182H158.256Z" fill="#C85C2A"/><path d="M112.335 71.2037C111.727 71.2037 111.186 71.1545 110.713 71.0562C110.239 70.9668 109.886 70.8684 109.653 70.7612L111.182 67.4759C111.888 67.6726 112.518 67.7486 113.073 67.7039C113.636 67.6592 114.163 67.4268 114.655 67.0066C115.147 66.5865 115.647 65.925 116.157 65.0221L116.908 63.6678L112.871 42.8837H117.001L119.549 58.9075H119.764L127.648 42.8837H132.114L119.764 66.2021C119.183 67.3106 118.521 68.2313 117.779 68.9643C117.046 69.7063 116.224 70.265 115.312 70.6405C114.409 71.0159 113.417 71.2037 112.335 71.2037Z" fill="black"/><path d="M76.9299 63.48L80.3626 42.8836H84.211L83.6478 46.2359H83.9026C84.5284 45.1006 85.3776 44.2156 86.4503 43.5809C87.532 42.9373 88.7567 42.6154 90.1244 42.6154C91.4832 42.6154 92.5783 42.9373 93.4097 43.5809C94.25 44.2245 94.7997 45.1095 95.059 46.2359H95.2735C95.935 45.1274 96.8603 44.2469 98.0492 43.5943C99.2382 42.9417 100.575 42.6154 102.059 42.6154C103.909 42.6154 105.33 43.2054 106.323 44.3854C107.324 45.5565 107.628 47.3176 107.234 49.6686L104.928 63.48H100.905L103.158 50.0441C103.382 48.6406 103.167 47.6304 102.514 47.0136C101.862 46.3879 101.008 46.075 99.9533 46.075C98.6482 46.075 97.5665 46.4773 96.7083 47.2818C95.8501 48.0774 95.3227 49.101 95.126 50.3525L92.9135 63.48H88.931L91.224 49.7893C91.4028 48.6629 91.1972 47.7645 90.6072 47.0941C90.0261 46.4147 89.1769 46.075 88.0594 46.075C87.2996 46.075 86.5621 46.2761 85.8469 46.6784C85.1407 47.0807 84.5373 47.6349 84.0367 48.3411C83.5361 49.0473 83.2098 49.8608 83.0578 50.7816L80.9392 63.48H76.9299Z" fill="black"/><path d="M12 53C12.5484 47 16.9355 35.5 29 32" stroke="black" stroke-width="3" stroke-linecap="round"/><circle cx="36.5" cy="30.5" r="7" stroke="black" stroke-width="3"/><path d="M50.5 35C55.422 38.4749 63.1877 48.0243 60.1865 60.2224" stroke="black" stroke-width="3" stroke-linecap="round"/><circle cx="57.7356" cy="67.4676" r="7" transform="rotate(120 57.7356 67.4676)" stroke="black" stroke-width="3"/><path d="M47.3468 76.5789C41.8764 79.1039 29.7236 81.0546 20.6603 72.3564" stroke="black" stroke-width="3" stroke-linecap="round"/><circle cx="15.6112" cy="66.6112" r="7" transform="rotate(-120 15.6112 66.6112)" stroke="black" stroke-width="3"/>
-          </svg>
+      <div>
+        <div class="modal-label-row">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4H13M5 9L8 6L11 9M8 14V6"/></svg>
+          Import
         </div>
-        <h2>Your network lives on your device</h2>
+        <h2>LinkedIn Connections</h2>
       </div>
-      <button class="modal-close" onclick="document.getElementById('modal').style.display='none'" aria-label="Close">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-          <line x1="3" y1="3" x2="13" y2="13"/>
-          <line x1="13" y1="3" x2="3" y2="13"/>
-        </svg>
+      <button class="modal-close" onclick="closeModal('importModal')">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg>
       </button>
     </div>
+    <div class="modal-body">
+      <div class="import-steps">
+        <strong>How to export from LinkedIn:</strong>
+        <ol>
+          <li>Go to LinkedIn &rarr; <strong>Settings &amp; Privacy</strong></li>
+          <li>Click <strong>Data Privacy</strong> &rarr; <strong>Download your data</strong></li>
+          <li>Select <strong>&ldquo;Download larger data archive&rdquo;</strong> (includes connections)</li>
+          <li>Click <strong>Request archive</strong> &mdash; LinkedIn will email you a download link (can take up to 24 hours)</li>
+          <li>Download the <strong>.zip file</strong> from that email and unzip it</li>
+          <li>Find and upload <strong>only the Connections.csv</strong> file below</li>
+        </ol>
+        <span class="note">⚠ Only upload Connections.csv — other CSV files will not import correctly.</span>
+      </div>
+      <div class="field">
+        <label>Select Connections.csv</label>
+        <input type="file" id="csvFileInput" accept=".csv" onchange="handleCSVUpload(event)" style="background:var(--white);">
+      </div>
+      <div id="importStatus" style="margin-top:10px;font-size:13px;color:var(--ink-secondary)"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('importModal')">Cancel</button>
+    </div>
+  </div>
+</div>
 
+<!-- MODAL: ADD/EDIT CONTACT -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-label-row">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+          Contact
+        </div>
+        <h2 id="addModalTitle">Add Connection</h2>
+      </div>
+      <button class="modal-close" onclick="closeModal('addModal')">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-form">
+        <div class="two-col">
+          <div class="field"><label>First Name</label><input type="text" id="m_first" placeholder="Jane"></div>
+          <div class="field"><label>Last Name</label><input type="text" id="m_last" placeholder="Smith"></div>
+        </div>
+        <div class="field"><label>Job Title</label><input type="text" id="m_title" placeholder="Product Designer"></div>
+        <div class="field"><label>Company</label><input type="text" id="m_company" placeholder="Acme Corp"></div>
+        <div class="field"><label>Email</label><input type="email" id="m_email" placeholder="jane@acme.com"></div>
+        <div class="field"><label>LinkedIn URL</label><input type="text" id="m_url" placeholder="https://linkedin.com/in/…"></div>
+        <div class="field"><label>Connected Date</label><input type="text" id="m_date" placeholder="Jan 01, 2024"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('addModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveManualConnection()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: DRAFT GREETING -->
+<div class="modal-overlay" id="draftModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-label-row">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 11V13H4L11.5 5.5L9.5 3.5L2 11Z"/><line x1="9" y1="4" x2="11.5" y2="6.5"/></svg>
+          Greeting
+        </div>
+        <h2 id="draftTitle">Draft Message</h2>
+      </div>
+      <button class="modal-close" onclick="closeModal('draftModal')">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="field" style="margin-bottom:12px">
+        <label>Holiday</label>
+        <select id="draftTypeSelect" onchange="updateDraftTemplate()">
+          <option value="newyear">New Year</option>
+          <option value="thanksgiving">Thanksgiving</option>
+          <option value="holiday">Winter Holidays</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Message — edit before sending</label>
+        <textarea id="draftPreview"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="copyDraft()">📋 Copy</button>
+      <button class="btn btn-primary" onclick="openMailto()">✉️ Open in Email</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: WELCOME / ABOUT -->
+<div class="modal-overlay" id="onboardModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-label-row">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><line x1="8" y1="7" x2="8" y2="11"/><circle cx="8" cy="5.5" r="0.5" fill="currentColor"/></svg>
+          Welcome to myNETWORK
+        </div>
+        <h2>A journal that lives<br>on your device</h2>
+      </div>
+      <button class="modal-close" onclick="closeOnboard()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg>
+      </button>
+    </div>
     <div class="modal-body">
       <div class="modal-features">
-
         <div class="feature-row">
-          <div class="feature-icon">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 4H13M5 9L8 6L11 9M8 14V6"/>
-            </svg>
-          </div>
-          <div class="feature-text">
+          <div class="feature-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4H13M5 9L8 6L11 9M8 14V6"/></svg></div>
+          <div>
             <p class="feature-title">Import LinkedIn connections</p>
-            <p class="feature-desc">Export <code>Connections.csv</code> and import here. Duplicates are skipped automatically — your notes are never overwritten.</p>
+            <p class="feature-desc">Export <code>Connections.csv</code> and import here. Duplicates are skipped — your notes are never overwritten on re-import.</p>
           </div>
         </div>
-
         <div class="feature-row">
-          <div class="feature-icon">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 11V13H4L11.5 5.5L9.5 3.5L2 11Z"/>
-              <line x1="9" y1="4" x2="11.5" y2="6.5"/>
-            </svg>
-          </div>
-          <div class="feature-text">
+          <div class="feature-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 11V13H4L11.5 5.5L9.5 3.5L2 11Z"/><line x1="9" y1="4" x2="11.5" y2="6.5"/></svg></div>
+          <div>
             <p class="feature-title">Write how you met each person</p>
             <p class="feature-desc">Add notes, tags, and context for every connection. Fully searchable and filterable.</p>
           </div>
         </div>
-
         <div class="feature-row">
-          <div class="feature-icon">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M8 2L9.5 6H14L10.5 8.5L12 12.5L8 10L4 12.5L5.5 8.5L2 6H6.5L8 2Z"/>
-            </svg>
-          </div>
-          <div class="feature-text">
+          <div class="feature-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2L9.5 6H14L10.5 8.5L12 12.5L8 10L4 12.5L5.5 8.5L2 6H6.5L8 2Z"/></svg></div>
+          <div>
             <p class="feature-title">Star people for seasonal greetings</p>
             <p class="feature-desc">Star connections anytime. When a season arrives, open Starred to draft a personal note and track outreach.</p>
           </div>
         </div>
-
         <div class="feature-row">
-          <div class="feature-icon">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="2" width="10" height="12" rx="1"/>
-              <path d="M3 10H13M3 7H13"/>
-              <path d="M6 14V10"/>
-              <rect x="5" y="12" width="2" height="2" rx="0.5" fill="currentColor" stroke="none"/>
-              <rect x="9" y="12" width="2" height="2" rx="0.5" fill="currentColor" stroke="none"/>
-            </svg>
-          </div>
-          <div class="feature-text">
+          <div class="feature-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2" width="10" height="12" rx="1"/><path d="M3 10H13M3 7H13"/></svg></div>
+          <div>
             <p class="feature-title">Your data stays on your device</p>
             <p class="feature-desc">Nothing is sent to any server. Use <strong>Save</strong> to download <code>my-network.json</code> and <strong>Load</strong> to restore it next session.</p>
           </div>
         </div>
-
       </div>
-
+      <div class="modal-warning">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2L14 13H2L8 2Z"/><line x1="8" y1="7" x2="8" y2="10"/><circle cx="8" cy="12" r="0.5" fill="currentColor"/></svg>
+        <p><strong>Do not use on a shared or public computer.</strong> Your data and notes are stored in this browser session only. Always save before closing.</p>
+      </div>
     </div>
-
     <div class="modal-footer">
-      <button class="btn btn-primary" onclick="document.getElementById('modal').style.display='none'">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
-          <path d="M3 4H13M5 9L8 6L11 9M8 14V6"/>
-        </svg>
+      <button class="btn btn-primary" onclick="closeOnboard(); openImportModal()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M3 4H13M5 9L8 6L11 9M8 14V6"/></svg>
         Import LinkedIn CSV
       </button>
-      <button class="btn btn-secondary" onclick="document.getElementById('modal').style.display='none'">
-        Add manually
-      </button>
+      <button class="btn btn-secondary" onclick="closeOnboard(); addManualConnection()">Add manually</button>
     </div>
-
   </div>
 </div>
 
+<div class="toast-wrap" id="toastWrap"></div>
+<input type="file" id="loadFileInput" accept=".json" style="display:none" onchange="handleLoadFile(event)">
 
 <script>
-  // Track whether there are unsaved changes
-  let hasUnsavedChanges = false;
+// ── STATE ──────────────────────────────────
+let connections     = [];
+let selectedId      = null;
+let currentTab      = "connections";
+let activeTagFilter = "all";
+let currentSeason   = "newyear";
+let editingId       = null;
+let draftCtx        = {};
+let detailIsEditing = false;
 
-  // Call this whenever the user makes a change (add/edit/delete contact, etc.)
-  function markUnsaved() {
-    hasUnsavedChanges = true;
-  }
+const SEASONS = {
+  newyear:      { label: "New Year" },
+  thanksgiving: { label: "Thanksgiving" },
+  holiday:      { label: "Winter Holidays" },
+};
 
-  // Call this after a successful JSON save/download
-  function markSaved() {
-    hasUnsavedChanges = false;
-  }
+const TEMPLATES = {
+  newyear: c => ["Hi " + c.firstName + ",","","Wishing you a wonderful New Year! Hope " + new Date().getFullYear() + " brings great things your way." + (c.notes ? "\n\nStill thinking about when we " + c.notes.slice(0,55) + "\u2026" : ""),"","Warmly,","[Your name]"].join("\n"),
+  thanksgiving: c => ["Hi " + c.firstName + ",","","Hope you have a warm Thanksgiving with the people you love. Grateful to have you in my network." + (c.company ? "\n\nHope things are going well at " + c.company + "!" : ""),"","Best,","[Your name]"].join("\n"),
+  holiday: c => ["Hi " + c.firstName + ",","","Wishing you and yours a peaceful holiday season and a wonderful year ahead." + (c.notes ? "\n\nSo glad we got to " + c.notes.slice(0,55) + "\u2026" : ""),"","Warmly,","[Your name]"].join("\n"),
+};
 
-  window.addEventListener('beforeunload', function(e) {
-    if (hasUnsavedChanges) {
-      e.preventDefault();
-      e.returnValue = 'You have unsaved changes. Download your JSON file before leaving so you don\'t lose anything.';
-      return e.returnValue;
-    }
+// ── UTILS ──────────────────────────────────
+const uid  = () => Date.now().toString(36) + Math.random().toString(36).slice(2);
+const init = c => ((c.firstName||"?")[0]+(c.lastName||"?")[0]).toUpperCase();
+function fullName(c) { return ((c.firstName||"") + " " + (c.lastName||"")).trim() || "Unnamed"; }
+function getAllTags() { return [...new Set(connections.flatMap(c=>c.tags||[]))].sort(); }
+
+function toast(msg, type="success") {
+  const w=document.getElementById("toastWrap");
+  const t=document.createElement("div");
+  t.className="toast " + type; t.textContent=msg;
+  w.appendChild(t); setTimeout(()=>t.remove(),3000);
+}
+
+const AC=["#2c3e50","#5d6b82","#6b7c6e","#7d5a50","#4a5568","#5f7a61","#8b5e52"];
+function avatarColor(id){ let h=0; for(const c of id) h=(h*31+c.charCodeAt(0))&0xffff; return AC[h%AC.length]; }
+
+function closeModal(id){ document.getElementById(id).classList.remove("open"); }
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".modal-overlay").forEach(m=>{
+    m.addEventListener("click",e=>{ if(e.target===m) m.classList.remove("open"); });
   });
+});
+
+// ── ONBOARD ────────────────────────────────
+function openOnboardModal(){ document.getElementById("onboardModal").classList.add("open"); }
+function closeOnboard(){
+  closeModal("onboardModal");
+  localStorage.setItem("mynetwork_seen","1");
+}
+
+// ── TABS ───────────────────────────────────
+function switchTab(tab, btn) {
+  currentTab=tab;
+  document.querySelectorAll(".tab-btn").forEach(b=>{
+    b.classList.remove("active");
+    const badge=b.querySelector(".badge");
+    if(badge) badge.classList.remove("active-badge");
+  });
+  btn.classList.add("active");
+  const activeBadge=btn.querySelector(".badge");
+  if(activeBadge) activeBadge.classList.add("active-badge");
+
+  if(tab==="connections"){
+    document.getElementById("greetingsView").style.display="none";
+    if(selectedId) renderDetail(selectedId); else showOnboarding();
+  } else {
+    document.getElementById("detailView").style.display="none";
+    document.getElementById("onboardingView").style.display="none";
+    renderGreetings();
+  }
+}
+
+function updateGreetCount(){
+  const n=connections.filter(c=>c.flaggedForGreeting).length;
+  document.getElementById("greetCount").textContent=n;
+  document.getElementById("tabBadgeConn").textContent=connections.length;
+}
+
+// ── CSV IMPORT ─────────────────────────────
+function openImportModal(){ document.getElementById("importModal").classList.add("open"); }
+
+function handleCSVUpload(e){
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    const res=parseLinkedInCSV(ev.target.result);
+    document.getElementById("importStatus").textContent="Added " + res.added + " new, skipped " + res.skipped + " duplicates.";
+    renderList(); renderTagFilters(); updateStats();
+    setTimeout(()=>closeModal("importModal"),1400);
+    toast("Imported " + res.added + " connections");
+  };
+  r.readAsText(f);
+}
+
+function parseLinkedInCSV(text){
+  text=text.replace(/^\uFEFF/,"");
+  const lines=text.split(/\r?\n/).filter(l=>l.trim());
+  let hi=lines.findIndex(l=>l.toLowerCase().includes("first name")||l.toLowerCase().includes("firstname"));
+  if(hi===-1) hi=0;
+  const headers=parseCSVLine(lines[hi]).map(h=>h.toLowerCase().trim());
+  const eE=new Set(connections.map(c=>(c.email||"").toLowerCase()));
+  const eU=new Set(connections.map(c=>(c.linkedinUrl||"").toLowerCase()).filter(Boolean));
+  let added=0,skipped=0;
+  for(let i=hi+1;i<lines.length;i++){
+    if(!lines[i].trim()) continue;
+    const vals=parseCSVLine(lines[i]);
+    const row={}; headers.forEach((h,idx)=>{row[h]=(vals[idx]||"").trim();});
+    const fn=row["first name"]||row["firstname"]||"";
+    const ln=row["last name"]||row["lastname"]||"";
+    if(!fn&&!ln) continue;
+    const em=(row["email address"]||row["email"]||"").toLowerCase();
+    const ur=(row["profile url"]||row["linkedin url"]||row["url"]||"").toLowerCase();
+    if(em&&eE.has(em)){skipped++;continue;}
+    if(ur&&eU.has(ur)){skipped++;continue;}
+    connections.push({ id:uid(),firstName:fn,lastName:ln,
+      title:row["position"]||row["title"]||row["job title"]||"",
+      company:row["company"]||row["organization"]||"",
+      email:row["email address"]||row["email"]||"",
+      linkedinUrl:row["profile url"]||row["linkedin url"]||row["url"]||"",
+      connectedOn:row["connected on"]||row["connected date"]||"",
+      notes:"",tags:[],flaggedForGreeting:false,greetings:{},
+    });
+    if(em) eE.add(em); if(ur) eU.add(ur); added++;
+  }
+  return {added,skipped};
+}
+
+function parseCSVLine(line){
+  const res=[]; let cur="",inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'){inQ=!inQ;continue;}
+    if(ch===","&&!inQ){res.push(cur);cur="";continue;}
+    cur+=ch;
+  }
+  res.push(cur); return res;
+}
+
+// ── MANUAL ADD ─────────────────────────────
+function addManualConnection(){
+  editingId=null;
+  document.getElementById("addModalTitle").textContent="Add Connection";
+  ["m_first","m_last","m_title","m_company","m_email","m_url","m_date"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("addModal").classList.add("open");
+}
+
+function saveManualConnection(){
+  const fn=document.getElementById("m_first").value.trim();
+  const ln=document.getElementById("m_last").value.trim();
+  if(!fn&&!ln){toast("Please enter a name","info");return;}
+  if(editingId){
+    const c=connections.find(x=>x.id===editingId);
+    if(c){ c.firstName=fn; c.lastName=ln;
+      c.title=document.getElementById("m_title").value.trim();
+      c.company=document.getElementById("m_company").value.trim();
+      c.email=document.getElementById("m_email").value.trim();
+      c.linkedinUrl=document.getElementById("m_url").value.trim();
+      c.connectedOn=document.getElementById("m_date").value.trim();
+    }
+    if(selectedId===editingId) renderDetail(editingId);
+    toast("Contact updated");
+  } else {
+    connections.push({ id:uid(),firstName:fn,lastName:ln,
+      title:document.getElementById("m_title").value.trim(),
+      company:document.getElementById("m_company").value.trim(),
+      email:document.getElementById("m_email").value.trim(),
+      linkedinUrl:document.getElementById("m_url").value.trim(),
+      connectedOn:document.getElementById("m_date").value.trim(),
+      notes:"",tags:[],flaggedForGreeting:false,greetings:{},
+    });
+    toast("Contact added");
+  }
+  closeModal("addModal"); renderList(); renderTagFilters(); updateStats();
+}
+
+// ── LIST ───────────────────────────────────
+function renderList(){
+  const q=(document.getElementById("searchInput").value||"").toLowerCase();
+  const list=document.getElementById("connectionList");
+  let f=connections.filter(c=>{
+    if(activeTagFilter!=="all"&&!c.tags.includes(activeTagFilter)) return false;
+    if(!q) return true;
+    return fullName(c).toLowerCase().includes(q)||(c.company||"").toLowerCase().includes(q)||
+      (c.title||"").toLowerCase().includes(q)||(c.notes||"").toLowerCase().includes(q)||
+      (c.tags||[]).some(t=>t.toLowerCase().includes(q));
+  });
+  f.sort((a,b)=>fullName(a).localeCompare(fullName(b)));
+
+  if(!f.length){
+    list.innerHTML=connections.length===0
+      ? `<div class="sidebar-empty"><svg class="sidebar-empty-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="16" r="6"/><path d="M8 34C8 28 13 24 20 24C27 24 32 28 32 34"/><line x1="26" y1="10" x2="30" y2="10"/><line x1="28" y1="8" x2="28" y2="12"/></svg><p>No connections yet. Import your LinkedIn CSV or add someone manually.</p></div>`
+      : `<div style="padding:20px;text-align:center;color:var(--ink-tertiary);font-size:13px">No connections found</div>`;
+    return;
+  }
+  list.innerHTML=f.map(c=>`
+    <div class="conn-item${c.id===selectedId?" active":""}" onclick="selectConnection('${c.id}')">
+      <div class="conn-name">${fullName(c)}</div>
+      <div class="conn-meta">${[c.title,c.company].filter(Boolean).join(" \u00b7 ")}</div>
+      ${c.tags.length?`<div class="conn-tags">${c.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>`:""}
+      ${c.notes?`<div class="conn-note-preview">${c.notes}</div>`:""}
+      ${c.flaggedForGreeting?`<div class="flagged-pip" title="Starred for greeting"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><path d="M7 1.5l1.5 3.5 3.5.4-2.5 2.4.6 3.6L7 9.6l-3.1 1.8.6-3.6L2 5.4l3.5-.4z"/></svg></div>`:""}
+    </div>`).join("");
+}
+
+function updateStats(){
+  document.getElementById("statTotal").textContent=connections.length;
+  document.getElementById("statNotes").textContent=connections.filter(c=>c.notes).length;
+  document.getElementById("statFlagged").textContent=connections.filter(c=>c.flaggedForGreeting).length;
+  document.getElementById("tabBadgeConn").textContent=connections.length;
+  updateGreetCount();
+}
+
+function renderTagFilters(){
+  const allTags=getAllTags().sort((a,b)=>a.localeCompare(b));
+  const el=document.getElementById("tagFilters");
+  const sel=document.getElementById("tagFilterSelect");
+  if(!allTags.length){ el.style.display="none"; activeTagFilter="all"; return; }
+  el.style.display="block";
+  // Rebuild options keeping current selection
+  sel.innerHTML=`<option value="all">All tags</option>`+
+    allTags.map(t=>`<option value="${t}"${activeTagFilter===t?" selected":""}>${t}</option>`).join("");
+}
+
+function setTagFilter(tag){
+  activeTagFilter=tag;
+  renderList();
+}
+
+// ── DETAIL ─────────────────────────────────
+function selectConnection(id){
+  selectedId=id;
+  detailIsEditing=false;
+  if(currentTab==="greetings"){
+    currentTab="connections";
+    document.getElementById("tab-connections").classList.add("active");
+    document.getElementById("tab-greetings").classList.remove("active");
+    document.getElementById("greetingsView").style.display="none";
+  }
+  document.querySelectorAll(".conn-item").forEach(el=>{
+    el.classList.toggle("active", el.getAttribute("onclick")?.includes(`'${id}'`));
+  });
+  renderDetail(id);
+}
+
+function renderDetail(id){
+  const c=connections.find(x=>x.id===id); if(!c) return;
+  document.getElementById("onboardingView").style.display="none";
+  document.getElementById("greetingsView").style.display="none";
+  const dv=document.getElementById("detailView");
+  dv.style.display="block";
+
+  const isEditing = detailIsEditing;
+  const modeClass = isEditing ? "detail-edit-mode" : "detail-view-mode";
+
+  const starFilled = `<svg viewBox="0 0 16 16" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l1.8 4H14l-3.4 2.5 1.3 4.3L8 10.2l-3.9 2.6 1.3-4.3L2 6h4.2z"/></svg>`;
+  const starEmpty  = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l1.8 4H14l-3.4 2.5 1.3 4.3L8 10.2l-3.9 2.6 1.3-4.3L2 6h4.2z"/></svg>`;
+  const iconLinkedIn = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 7v4M5 5v.5M8 11V8.5c0-1 .5-1.5 1.5-1.5s1.5.5 1.5 1.5V11"/></svg>`;
+  const iconEmail    = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="12" height="9" rx="1.5"/><path d="M2 5l6 5 6-5"/></svg>`;
+  const iconEdit     = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2.5l2.5 2.5L5 13.5H2.5V11z"/><line x1="9" y1="4.5" x2="11.5" y2="7"/></svg>`;
+  const iconTrash    = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,4 14,4"/><path d="M5 4V2h6v2"/><path d="M6 7v5M10 7v5"/><rect x="3" y="4" width="10" height="10" rx="1.5"/></svg>`;
+  const iconSave     = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h10M8 2v8M5 7l3 3 3-3"/></svg>`;
+
+  dv.innerHTML=`<div class="detail-wrap ${modeClass}" id="detailInner_${id}">
+    <div class="detail-header-row">
+      <div class="detail-identity">
+        <div class="detail-avatar" style="background:${avatarColor(c.id)}">${init(c)}</div>
+        <div>
+          <div class="detail-name">${fullName(c)}</div>
+          ${c.title?`<div class="detail-title">${c.title}</div>`:""}
+          ${c.company?`<div class="detail-company">${c.company}</div>`:""}
+        </div>
+      </div>
+      <div class="detail-header-actions">
+        ${c.linkedinUrl?`<a href="${c.linkedinUrl}" target="_blank" class="btn btn-outline btn-sm">${iconLinkedIn} LinkedIn</a>`:""}
+        ${c.email?`<a href="mailto:${c.email}" class="btn btn-outline btn-sm">${iconEmail} Email</a>`:""}
+        ${isEditing
+          ? `<button class="btn btn-primary btn-sm" onclick="saveDetail('${id}')" style="font-size:12.5px;padding:6px 14px">${iconSave} Save</button>`
+          : `<button class="btn btn-outline btn-sm" onclick="enterEditMode('${id}')">${iconEdit} Edit</button>`
+        }
+        <button class="btn btn-danger btn-sm" onclick="deleteConnection('${id}')">${iconTrash}</button>
+      </div>
+    </div>
+
+    <div class="star-banner${c.flaggedForGreeting?" is-starred":""}">
+      <div class="flag-banner-text">
+        <strong>${c.flaggedForGreeting?"Starred for seasonal greetings":"Seasonal greeting"}</strong>
+        <span>${c.flaggedForGreeting
+          ?"This person will appear in your Greetings tab each season until you unstar them."
+          :"Star this person and they'll show up in your Greetings tab whenever a season comes around."}</span>
+      </div>
+      <button class="star-toggle${c.flaggedForGreeting?" starred":""}" onclick="toggleFlag('${id}')">
+        ${c.flaggedForGreeting ? starFilled+"&nbsp;Unstar" : starEmpty+"&nbsp;Star for greeting"}
+      </button>
+    </div>
+
+    <div class="card">
+      <!-- Meta details row -->
+      ${(c.email||c.connectedOn||c.linkedinUrl) ? `
+      <div class="meta-row" style="margin-bottom:20px">
+        ${c.email?`<div class="meta-item"><div class="meta-label">Email</div><div class="meta-value">${c.email}</div></div>`:""}
+        ${c.connectedOn?`<div class="meta-item"><div class="meta-label">Connected</div><div class="meta-value">${c.connectedOn}</div></div>`:""}
+        ${c.linkedinUrl?`<div class="meta-item"><div class="meta-label">Profile</div><div class="meta-value"><a href="${c.linkedinUrl}" target="_blank">View LinkedIn Profile &rarr;</a></div></div>`:""}
+      </div>` : ""}
+
+      <!-- Divider before tags if meta exists -->
+      ${(c.email||c.connectedOn||c.linkedinUrl) ? `<div style="height:1px;background:var(--border);margin:0 0 20px"></div>` : ""}
+
+      <!-- Tags -->
+      <div class="detail-tags-section" style="margin-bottom:${isEditing||c.notes?'20px':'0'}">
+        <div class="detail-section-label">Tags ${isEditing?`<span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-tertiary);font-size:11px">&nbsp;· Enter to add, × to remove</span>`:""}</div>
+        ${isEditing
+          ? `<div class="tags-input-wrap" onclick="focusTagInput('${id}')">
+              ${(c.tags||[]).map(t=>`<span class="tag">${t}<i class="tag-x" onclick="removeTag('${id}','${t}',event)" title="Remove tag">&times;</i></span>`).join("")}
+              <input class="tag-input-field" id="tagInput_${id}" placeholder="add tag…" oninput="showTagAutocomplete('${id}')" onkeydown="handleTagInput(event,'${id}')">
+              <div class="tag-autocomplete" id="tagAC_${id}" style="display:none"></div>
+            </div>`
+          : (c.tags&&c.tags.length
+              ? `<div style="display:flex;flex-wrap:wrap;gap:6px">${c.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>`
+              : `<div class="detail-tags-empty">No tags yet</div>`)
+        }
+      </div>
+
+      <!-- Notes -->
+      ${isEditing || c.notes ? `
+      <div style="height:1px;background:var(--border);margin:0 0 20px"></div>
+      <div class="detail-notes-section">
+        <div class="detail-section-label">How I know them / Notes</div>
+        ${isEditing
+          ? `<textarea id="notes_${id}" placeholder="We met at Config 2024 after the design systems talk…">${c.notes||""}</textarea>`
+          : `<div class="detail-notes-text">${c.notes}</div>`
+        }
+      </div>` : ""}
+
+      <!-- Save bar -->
+      <div class="save-bar" style="margin-top:20px">
+        <button class="btn btn-outline btn-sm" onclick="cancelEdit('${id}')">&times; Cancel</button>
+        <button class="btn btn-primary" style="font-size:13px;padding:8px 20px" onclick="saveDetail('${id}')">${iconSave} Save changes</button>
+      </div>
+    </div>
+
+    ${c.flaggedForGreeting?`
+    <div class="card">
+      <div class="card-label">Greeting history — mark when sent</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+        ${Object.entries(SEASONS).map(([key,s])=>{
+          const sent=c.greetings?.[key]?.sent;
+          const dt=c.greetings?.[key]?.date||"";
+          const checkIcon = sent ? '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="3,8 6.5,11.5 13,4"/></svg> ' : '';
+          return `<button class="sent-toggle${sent?" sent":""}" onclick="toggleSent('${id}','${key}')">${checkIcon}${s.label} ${new Date().getFullYear()} ${sent?"· sent "+dt:"· not sent"}</button>`;
+        }).join("")}
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        ${Object.entries(SEASONS).map(([key,s])=>{
+          const draftIcon = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><path d="M2 11V13H4L11.5 5.5L9.5 3.5L2 11Z"/><line x1="9" y1="4" x2="11.5" y2="6.5"/></svg>';
+          return `<button class="btn btn-outline btn-sm" onclick="openDraftModal('${id}','${key}')">${draftIcon} Draft ${s.label}</button>`;
+        }).join("")}
+      </div>
+    </div>`:""} 
+  </div>`;
+}
+
+function enterEditMode(id){
+  detailIsEditing=true;
+  renderDetail(id);
+  const n=document.getElementById("notes_"+id);
+  if(n) n.focus();
+}
+
+function cancelEdit(id){
+  detailIsEditing=false;
+  renderDetail(id);
+}
+
+function saveDetail(id){
+  const c=connections.find(x=>x.id===id); if(!c) return;
+  // Read notes
+  const notesEl=document.getElementById("notes_"+id);
+  if(notesEl) c.notes=notesEl.value.trim();
+  // Read tags from rendered chips in case any are pending
+  const tagInputEl=document.getElementById("tagInput_"+id);
+  if(tagInputEl){
+    const val=tagInputEl.value.trim();
+    if(val&&!c.tags.includes(val)) c.tags.push(val);
+  }
+  detailIsEditing=false;
+  renderList(); renderDetail(id); toast("Saved");
+}
+
+function editConnection(id){
+  const c=connections.find(x=>x.id===id); if(!c) return;
+  editingId=id;
+  document.getElementById("addModalTitle").textContent="Edit Connection";
+  document.getElementById("m_first").value=c.firstName||"";
+  document.getElementById("m_last").value=c.lastName||"";
+  document.getElementById("m_title").value=c.title||"";
+  document.getElementById("m_company").value=c.company||"";
+  document.getElementById("m_email").value=c.email||"";
+  document.getElementById("m_url").value=c.linkedinUrl||"";
+  document.getElementById("m_date").value=c.connectedOn||"";
+  document.getElementById("addModal").classList.add("open");
+}
+
+let pendingDeleteId = null;
+
+function deleteConnection(id){
+  const c = connections.find(x=>x.id===id); if(!c) return;
+  pendingDeleteId = id;
+  const nameEl = document.getElementById("confirmDeleteName");
+  if(nameEl) nameEl.textContent = (c.firstName+" "+c.lastName).trim();
+  document.getElementById("confirmModal").classList.add("open");
+}
+
+function confirmDeleteYes(){
+  const id = pendingDeleteId; if(!id) return;
+  connections = connections.filter(c=>c.id!==id);
+  if(selectedId===id){selectedId=null;showOnboarding();}
+  renderList(); renderTagFilters(); updateStats();
+  toast("Removed from myNETWORK");
+  closeModal("confirmModal");
+  pendingDeleteId = null;
+  markUnsaved();
+}
+
+function showOnboarding(){
+  document.getElementById("onboardingView").style.display="";
+  document.getElementById("detailView").style.display="none";
+  document.getElementById("greetingsView").style.display="none";
+}
+
+// ── STAR ───────────────────────────────────
+function toggleFlag(id){
+  const c=connections.find(x=>x.id===id); if(!c) return;
+  c.flaggedForGreeting=!c.flaggedForGreeting;
+  renderDetail(id); renderList(); updateStats();
+  toast(c.flaggedForGreeting?"Starred for greetings":"Removed from greetings", c.flaggedForGreeting?"success":"info");
+}
+
+// ── TAGS ───────────────────────────────────
+function focusTagInput(id){
+  if(!detailIsEditing) return;
+  document.getElementById("tagInput_"+id)?.focus();
+}
+
+function showTagAutocomplete(id){
+  const inp=document.getElementById("tagInput_"+id);
+  const ac=document.getElementById("tagAC_"+id);
+  if(!inp||!ac) return;
+  const val=inp.value.trim();
+  if(!val){ ac.style.display="none"; return; }
+  const allTags=getAllTags();
+  const c=connections.find(x=>x.id===id);
+  const existing=c?.tags||[];
+  const matches=allTags.filter(t=>t.toLowerCase().startsWith(val.toLowerCase())&&!existing.includes(t));
+  if(!matches.length){ ac.style.display="none"; return; }
+  ac.style.display="block";
+  ac.innerHTML=matches.map(t=>`<div class="tag-autocomplete-item" onmousedown="applyTag('${id}','${t}')">${t}</div>`).join("");
+}
+
+function applyTag(id,tag){
+  const c=connections.find(x=>x.id===id); if(!c) return;
+  if(!c.tags.includes(tag)){
+    c.tags.push(tag);
+    detailIsEditing=true;
+    renderDetail(id);
+    renderTagFilters();
+  }
+}
+
+function handleTagInput(e,id){
+  if(e.key==="Escape"){
+    const ac=document.getElementById("tagAC_"+id);
+    if(ac) ac.style.display="none";
+    return;
+  }
+  if(e.key!=="Enter"&&e.key!==",") return;
+  e.preventDefault();
+  const inp=document.getElementById("tagInput_"+id);
+  const val=inp.value.trim(); if(!val) return;
+  const c=connections.find(x=>x.id===id);
+  if(c&&!c.tags.includes(val)){
+    c.tags.push(val);
+    detailIsEditing=true;
+    renderDetail(id);
+    renderTagFilters();
+  }
+  inp.value="";
+  const ac=document.getElementById("tagAC_"+id);
+  if(ac) ac.style.display="none";
+}
+
+function removeTag(id,tag,e){
+  if(e) e.stopPropagation();
+  const c=connections.find(x=>x.id===id);
+  if(c){c.tags=c.tags.filter(t=>t!==tag); detailIsEditing=true; renderDetail(id); renderTagFilters();}
+}
+
+// ── GREETINGS ──────────────────────────────
+function renderGreetings(){
+  document.getElementById("detailView").style.display="none";
+  document.getElementById("onboardingView").style.display="none";
+  const view=document.getElementById("greetingsView");
+  view.style.display="block";
+
+  const flagged=connections.filter(c=>c.flaggedForGreeting);
+  const s=SEASONS[currentSeason];
+  const yr=new Date().getFullYear();
+  const sent=flagged.filter(c=>c.greetings?.[currentSeason]?.sent);
+  const unsent=flagged.filter(c=>!c.greetings?.[currentSeason]?.sent);
+  const pct=flagged.length?Math.round(sent.length/flagged.length*100):0;
+
+  const iconCheck=`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="3,8 6.5,11.5 13,4"/></svg>`;
+  const iconDraft=`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><path d="M2 11V13H4L11.5 5.5L9.5 3.5L2 11Z"/><line x1="9" y1="4" x2="11.5" y2="6.5"/></svg>`;
+  const iconMail=`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><rect x="2" y="4" width="12" height="9" rx="1.5"/><path d="M2 5l6 5 6-5"/></svg>`;
+  const iconSentMark=`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;position:absolute;top:12px;right:12px"><polyline points="3,8 6.5,11.5 13,4"/></svg>`;
+  const iconStarEmpty=`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l1.8 4H14l-3.4 2.5 1.3 4.3L8 10.2l-3.9 2.6 1.3-4.3L2 6h4.2z"/></svg>`;
+
+  const card=(c,isSent)=>`
+    <div class="greet-card${isSent?" sent":""}" onclick="selectConnection('${c.id}')">
+      ${isSent?`${iconSentMark}`:""}
+      <div class="greet-card-name">${fullName(c)}</div>
+      <div class="greet-card-meta">${[c.title,c.company].filter(Boolean).join(" \u00b7 ")}</div>
+      ${c.notes?`<div class="greet-card-note">${c.notes.slice(0,75)}${c.notes.length>75?"…":""}</div>`:""}
+      ${!isSent?`<div class="greet-card-actions" onclick="event.stopPropagation()">
+        <button class="btn btn-outline btn-sm" onclick="markSentFromTab('${c.id}','${currentSeason}')">${iconCheck} Mark sent</button>
+        <button class="btn btn-outline btn-sm" onclick="openDraftModal('${c.id}','${currentSeason}')">${iconDraft} Draft</button>
+        ${c.email?`<a class="btn btn-outline btn-sm" href="mailto:${c.email}">${iconMail} Email</a>`:""}
+      </div>`:""}
+    </div>`;
+
+  // Text-only season buttons (no icons)
+  const seasonBtns=Object.entries(SEASONS).map(([key,gs])=>`<button class="season-btn${key===currentSeason?" active":""}" onclick="setSeason('${key}')">${gs.label}</button>`).join("");
+
+  view.innerHTML=`<div class="greet-wrap">
+    <div class="greet-title-row">
+      <div>
+        <div class="greet-title">Seasonal Greetings</div>
+        <div class="greet-sub">${flagged.length} ${flagged.length===1?"person":"people"} starred for a personal note</div>
+      </div>
+      <div class="season-strip">${seasonBtns}</div>
+    </div>
+
+    ${flagged.length?`
+    <div class="prog-card">
+      <div class="prog-top"><strong>${sent.length} of ${flagged.length} sent \u2014 ${s.label} ${yr}</strong><span>${pct}%</span></div>
+      <div class="prog-bg"><div class="prog-fill" style="width:${pct}%"></div></div>
+      <div class="prog-sub">${unsent.length} left to reach out to</div>
+    </div>
+    ${unsent.length?`<div><div class="section-label">Still to send (${unsent.length})</div><div class="greet-grid">${unsent.map(c=>card(c,false)).join("")}</div></div>`:""}
+    ${sent.length?`<div><div class="section-label">Sent (${sent.length})</div><div class="greet-grid">${sent.map(c=>card(c,true)).join("")}</div></div>`:""}
+    `:`<div class="greet-empty">
+      ${iconStarEmpty}
+      <h3>No one starred yet</h3>
+      <p>Open any connection and click "Star for greeting" \u2014 they'll appear here when a season comes around.</p>
+    </div>`}
+  </div>`;
+}
+
+function setSeason(key){ currentSeason=key; renderGreetings(); }
+function markSentFromTab(id,key){
+  const c=connections.find(x=>x.id===id); if(!c) return;
+  if(!c.greetings) c.greetings={};
+  c.greetings[key]={sent:true,date:new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})};
+  renderGreetings(); toast(SEASONS[key].label+" marked as sent");
+}
+function toggleSent(id,key){
+  const c=connections.find(x=>x.id===id); if(!c) return;
+  if(!c.greetings) c.greetings={};
+  const was=c.greetings[key]?.sent;
+  c.greetings[key]={sent:!was,date:!was?new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):null};
+  renderDetail(id); toast(was?"Unmarked":"Marked as sent");
+}
+
+// ── DRAFT ──────────────────────────────────
+function openDraftModal(id,type){
+  const c=connections.find(x=>x.id===id); if(!c) return;
+  draftCtx={c,type};
+  const draftTitleIcon=`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M2 11V13H4L11.5 5.5L9.5 3.5L2 11Z"/><line x1="9" y1="4" x2="11.5" y2="6.5"/></svg>`;
+  document.getElementById("draftTitle").innerHTML=draftTitleIcon+" Draft \u2014 "+fullName(c);
+  document.getElementById("draftTypeSelect").value=type;
+  document.getElementById("draftPreview").value=TEMPLATES[type](c);
+  document.getElementById("draftModal").classList.add("open");
+}
+function updateDraftTemplate(){
+  const type=document.getElementById("draftTypeSelect").value;
+  draftCtx.type=type;
+  document.getElementById("draftPreview").value=TEMPLATES[type](draftCtx.c);
+}
+function copyDraft(){
+  navigator.clipboard.writeText(document.getElementById("draftPreview").value).then(()=>toast("Copied to clipboard"));
+}
+function openMailto(){
+  const{c,type}=draftCtx;
+  if(!c.email){toast("No email on file","info");return;}
+  const sub=encodeURIComponent(SEASONS[type].label+" "+new Date().getFullYear());
+  const body=encodeURIComponent(document.getElementById("draftPreview").value);
+  window.location.href="mailto:"+c.email+"?subject="+sub+"&body="+body;
+}
+
+// ── SAVE / LOAD ────────────────────────────
+function saveData(){
+  const blob=new Blob([JSON.stringify({version:2,connections,exportedAt:new Date().toISOString()},null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="my-network.json"; a.click();
+  toast("Saved as my-network.json");
+}
+function loadDataFromFile(){ document.getElementById("loadFileInput").click(); }
+function handleLoadFile(e){
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      const data=JSON.parse(ev.target.result);
+      connections=(data.connections||[]).map(c=>({flaggedForGreeting:false,greetings:{},tags:[],...c}));
+      renderList(); renderTagFilters(); updateStats(); showOnboarding();
+      toast("Loaded "+connections.length+" connections");
+    } catch { toast("Could not parse file","info"); }
+  };
+  r.readAsText(f); e.target.value="";
+}
+
+// ── EXPOSE TO WINDOW ──────────────────────
+window.renderList=renderList; window.openOnboardModal=openOnboardModal;
+window.closeOnboard=closeOnboard; window.switchTab=switchTab;
+window.openImportModal=openImportModal; window.handleCSVUpload=handleCSVUpload;
+window.addManualConnection=addManualConnection; window.saveManualConnection=saveManualConnection;
+window.closeModal=closeModal; window.selectConnection=selectConnection;
+window.setTagFilter=setTagFilter; window.toggleFlag=toggleFlag;
+window.saveDetail=saveDetail; window.enterEditMode=enterEditMode;
+window.cancelEdit=cancelEdit; window.editConnection=editConnection;
+window.deleteConnection=deleteConnection; window.confirmDeleteYes=confirmDeleteYes; window.focusTagInput=focusTagInput;
+window.handleTagInput=handleTagInput; window.removeTag=removeTag;
+window.showTagAutocomplete=showTagAutocomplete; window.applyTag=applyTag;
+window.setSeason=setSeason; window.markSentFromTab=markSentFromTab;
+window.toggleSent=toggleSent; window.openDraftModal=openDraftModal;
+window.updateDraftTemplate=updateDraftTemplate; window.copyDraft=copyDraft;
+window.openMailto=openMailto; window.saveData=saveData;
+window.loadDataFromFile=loadDataFromFile; window.handleLoadFile=handleLoadFile;
+
+// ── INIT ──────────────────────────────────
+renderList(); updateStats();
+if(!localStorage.getItem("mynetwork_seen")){ openOnboardModal(); }
+
+// unsaved changes guard
+let hasUnsavedChanges = false;
+function markUnsaved(){ hasUnsavedChanges = true; }
+function markSaved(){ hasUnsavedChanges = false; }
+window.markUnsaved = markUnsaved; window.markSaved = markSaved;
+window.addEventListener('beforeunload', function(e){
+  if(hasUnsavedChanges){ e.preventDefault(); e.returnValue = 'Download your JSON file before leaving - you have unsaved changes.'; return e.returnValue; }
+});
 </script>
+
+<!-- MODAL: CONFIRM DELETE -->
+<div class="modal-overlay" id="confirmModal" onclick="if(event.target===this)closeModal('confirmModal')">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header" style="padding-bottom:0">
+      <div class="modal-header-content">
+        <div class="modal-label-row" style="color:#b91c1c">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><path d="M8 2L14 13H2L8 2Z"/><line x1="8" y1="7" x2="8" y2="10"/><circle cx="8" cy="12" r="0.5" fill="currentColor"/></svg>
+          Remove from myNETWORK
+        </div>
+        <h2 style="font-size:19px;margin-top:6px">Remove <span id="confirmDeleteName"></span>?</h2>
+      </div>
+      <button class="modal-close" onclick="closeModal('confirmModal')" aria-label="Close">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" style="padding-top:16px">
+      <p style="font-size:14px;color:var(--ink-secondary);line-height:1.6;margin-bottom:8px">This will remove them from myNETWORK, including any notes and tags you've added.</p>
+      <p style="font-size:13.5px;color:var(--ink-tertiary);line-height:1.6;padding:12px 14px;background:var(--surface);border-radius:var(--r-sm);border:1px solid var(--border)">
+        <strong style="color:var(--ink-secondary)">Your LinkedIn connection is not affected.</strong> This only removes them from this app — they'll still be connected to you on LinkedIn.
+      </p>
+    </div>
+    <div class="modal-footer" style="gap:8px">
+      <button class="btn btn-secondary" style="flex:1;justify-content:center" onclick="closeModal('confirmModal')">Keep them</button>
+      <button class="btn btn-danger" style="flex:1;justify-content:center;padding:10px 18px;border-radius:var(--r-md)" onclick="confirmDeleteYes()">Yes, remove</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
