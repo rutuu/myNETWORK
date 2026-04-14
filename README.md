@@ -11,7 +11,7 @@
 
 ## What it does
 
-LinkedIn connections are a black box — you can't search them, annotate them, or remember how you met half of them. myNETWORK fixes that.
+LinkedIn connections are a black box. You can't search them, annotate them, or remember how you met half of them. myNETWORK fixes that.
 
 - **Import** your LinkedIn `Connections.csv` — deduplication is automatic, notes are never overwritten on re-import
 - **Write** how you met each person, add tags, and track context
@@ -22,13 +22,25 @@ LinkedIn connections are a black box — you can't search them, annotate them, o
 
 ## How to use
 
+**First time**
+
 1. Download [`linkedin-connections.html`](linkedin-connections.html)
 2. Open it in any browser — no install, no build step
-3. Import your LinkedIn CSV or add contacts manually
-4. Hit **Save JSON** after each session to keep your data
+3. Click **Import CSV** and upload your `Connections.csv` from LinkedIn
+4. Add notes and tags to your contacts
+5. Hit **Save JSON** before closing — this downloads `my-network.json` with all your data
+
+**Returning**
+
+1. Open the app and click **Load JSON** to restore your contacts, notes, and tags
+2. Pick up where you left off
+
+**Adding new connections later**
+
+Click **Add New CSV** after loading your JSON. Only new contacts are added. Your existing notes and tags are never overwritten.
 
 **To get your LinkedIn CSV:**
-Settings → Data Privacy → Get a copy of your data → Download larger data archive → Request archive
+LinkedIn Settings → Data Privacy → Download your data → Download larger data archive → Request archive
 
 LinkedIn emails you a download link (can take up to 24 hours). Unzip and upload only `Connections.csv`.
 
@@ -44,7 +56,7 @@ Drop [`sample-connections.csv`](sample-connections.csv) into the import to see h
 
 Zero dependencies. One file. Vanilla HTML, CSS, and JavaScript.
 
-Data persists via download/upload of a local `my-network.json` — nothing is stored in the browser.
+Data persists via download/upload of a local `my-network.json`. Nothing is stored in the browser.
 
 ---
 
