@@ -50,6 +50,10 @@
   .topnav { background: var(--white); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 56px; position: sticky; top: 0; z-index: 100; }
   .nav-brand { display: flex; align-items: center; text-decoration: none; }
   .nav-actions { display: flex; align-items: center; gap: 8px; }
+  .topnav-tabs { display: flex; align-items: center; gap: 2px; }
+  .topnav-tab { background: none; border: none; font-family: var(--font-body); font-size: 13.5px; font-weight: 500; color: var(--ink-tertiary); padding: 8px 14px; cursor: pointer; border-radius: var(--r-sm); transition: all 0.15s; }
+  .topnav-tab:hover { color: var(--ink); background: var(--surface); }
+  .topnav-tab.active { color: var(--primary); background: rgba(69,149,160,0.08); font-weight: 600; }
 
   /* ── BUTTONS ── */
   .btn { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-body); font-size: 13.5px; font-weight: 500; cursor: pointer; border: none; border-radius: var(--r-sm); transition: background 0.15s, color 0.15s, box-shadow 0.15s, transform 0.1s; white-space: nowrap; line-height: 1; text-decoration: none; }
@@ -67,9 +71,7 @@
   .btn-outline { background: var(--white); color: var(--ink); padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: var(--r-sm); font-family: var(--font-body); font-size: 12.5px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s; text-decoration: none; line-height: 1; }
   .btn-outline:hover { background: var(--surface); border-color: var(--ink); }
   .btn-sm { padding: 6px 11px; font-size: 12.5px; }
-  .btn-danger { background: transparent; color: #b91c1c; border: 1px solid #fca5a5; border-radius: var(--r-sm); padding: 6px 10px; font-family: var(--font-body); font-size: 12.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s; }
-  .btn-danger:hover { background: #fef2f2; border-color: #f87171; }
-  .btn-danger svg { width: 13px; height: 13px; }
+
 
   /* ── LAYOUT ── */
   .app-wrapper { padding-bottom: 52px; }
@@ -346,23 +348,32 @@
       <circle cx="15.6112" cy="66.6112" r="7" transform="rotate(-120 15.6112 66.6112)" stroke="black" stroke-width="3"/>
     </svg>
   </a>
-  <div class="nav-actions">
-    <button class="btn btn-ghost" onclick="openImportModal()">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 11V13H4L11.5 5.5L9.5 3.5L2 11Z"/><path d="M13 2L14 3L13.5 3.5L11.5 1.5L12 1L13 2Z" fill="currentColor" stroke="none"/></svg>
-      Import CSV
-    </button>
-    <button class="btn btn-ghost" onclick="saveData()">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12H13M8 2V10M5 7L8 10L11 7"/></svg>
-      Save JSON
-    </button>
-    <button class="btn btn-ghost" onclick="loadDataFromFile()">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4H13M5 9L8 6L11 9M8 14V6"/></svg>
-      Load JSON
-    </button>
-    <button class="btn btn-dark" onclick="addManualConnection()">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
-      Add Contact
-    </button>
+  <div style="display:flex;align-items:center;gap:16px">
+    <!-- Nav tabs -->
+    <nav class="topnav-tabs" id="topnavTabs">
+      <button class="topnav-tab active" id="tabConnections" onclick="switchTopTab('connections')">Connections</button>
+      <button class="topnav-tab" id="tabHowTo" onclick="switchTopTab('howto')">How to use</button>
+    </nav>
+    <!-- Nav actions -->
+    <div class="nav-actions" id="navActions">
+      <span id="navContactCount" style="font-size:12.5px;color:var(--ink-tertiary);display:none"></span>
+      <button class="btn btn-ghost" id="btnImportCSV" onclick="openImportModal()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4H13M5 9L8 6L11 9M8 14V6"/></svg>
+        <span id="importCSVLabel">Import CSV</span>
+      </button>
+      <button class="btn btn-ghost" id="btnSaveJSON" onclick="saveData()" style="display:none">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12H13M8 2V10M5 7L8 10L11 7"/></svg>
+        Save JSON
+      </button>
+      <button class="btn btn-ghost" id="btnLoadJSON" onclick="loadDataFromFile()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4H13M5 9L8 6L11 9M8 14V6"/></svg>
+        Load JSON
+      </button>
+      <button class="btn btn-dark" onclick="addManualConnection()" id="btnAddContact" style="display:none">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+        Add Contact
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -476,10 +487,12 @@
 
       <!-- GREETINGS VIEW -->
       <div id="greetingsView" style="display:none"></div>
-
     </main>
   </div>
 </div>
+
+<!-- HOW TO USE — full width, outside grid -->
+<div id="howtoView" style="display:none;background:var(--surface);min-height:calc(100vh - 56px - 52px)"></div>
 
 <!-- STATUS BAR -->
 <footer class="status-bar">
@@ -879,6 +892,7 @@ function renderList(){
 
 function updateStats(){
   document.getElementById("statTotal").textContent=connections.length;
+  updateNavState();
   document.getElementById("statNotes").textContent=connections.filter(c=>c.notes).length;
   document.getElementById("statFlagged").textContent=connections.filter(c=>c.flaggedForGreeting).length;
   document.getElementById("tabBadgeConn").textContent=connections.length;
@@ -932,7 +946,6 @@ function renderDetail(id){
   const iconLinkedIn = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 7v4M5 5v.5M8 11V8.5c0-1 .5-1.5 1.5-1.5s1.5.5 1.5 1.5V11"/></svg>`;
   const iconEmail    = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="12" height="9" rx="1.5"/><path d="M2 5l6 5 6-5"/></svg>`;
   const iconEdit     = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2.5l2.5 2.5L5 13.5H2.5V11z"/><line x1="9" y1="4.5" x2="11.5" y2="7"/></svg>`;
-  const iconTrash    = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,4 14,4"/><path d="M5 4V2h6v2"/><path d="M6 7v5M10 7v5"/><rect x="3" y="4" width="10" height="10" rx="1.5"/></svg>`;
   const iconSave     = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h10M8 2v8M5 7l3 3 3-3"/></svg>`;
 
   dv.innerHTML=`<div class="detail-wrap ${modeClass}" id="detailInner_${id}">
@@ -952,7 +965,6 @@ function renderDetail(id){
           ? `<button class="btn btn-primary btn-sm" onclick="saveDetail('${id}')" style="font-size:12.5px;padding:6px 14px">${iconSave} Save</button>`
           : `<button class="btn btn-outline btn-sm" onclick="enterEditMode('${id}')">${iconEdit} Edit</button>`
         }
-        <button class="btn btn-danger btn-sm" onclick="deleteConnection('${id}')">${iconTrash}</button>
       </div>
     </div>
 
@@ -1075,26 +1087,7 @@ function editConnection(id){
   document.getElementById("addModal").classList.add("open");
 }
 
-let pendingDeleteId = null;
 
-function deleteConnection(id){
-  const c = connections.find(x=>x.id===id); if(!c) return;
-  pendingDeleteId = id;
-  const nameEl = document.getElementById("confirmDeleteName");
-  if(nameEl) nameEl.textContent = (c.firstName+" "+c.lastName).trim();
-  document.getElementById("confirmModal").classList.add("open");
-}
-
-function confirmDeleteYes(){
-  const id = pendingDeleteId; if(!id) return;
-  connections = connections.filter(c=>c.id!==id);
-  if(selectedId===id){selectedId=null;showOnboarding();}
-  renderList(); renderTagFilters(); updateStats();
-  toast("Removed from myNETWORK");
-  closeModal("confirmModal");
-  pendingDeleteId = null;
-  markUnsaved();
-}
 
 function showOnboarding(){
   document.getElementById("onboardingView").style.display="";
@@ -1106,7 +1099,7 @@ function showOnboarding(){
 function toggleFlag(id){
   const c=connections.find(x=>x.id===id); if(!c) return;
   c.flaggedForGreeting=!c.flaggedForGreeting;
-  renderDetail(id); renderList(); updateStats();
+  renderDetail(id); renderList(); updateStats(); updateNavState();
   toast(c.flaggedForGreeting?"Starred for greetings":"Removed from greetings", c.flaggedForGreeting?"success":"info");
 }
 
@@ -1301,7 +1294,7 @@ window.closeModal=closeModal; window.selectConnection=selectConnection;
 window.setTagFilter=setTagFilter; window.toggleFlag=toggleFlag;
 window.saveDetail=saveDetail; window.enterEditMode=enterEditMode;
 window.cancelEdit=cancelEdit; window.editConnection=editConnection;
-window.deleteConnection=deleteConnection; window.confirmDeleteYes=confirmDeleteYes; window.focusTagInput=focusTagInput;
+window.focusTagInput=focusTagInput;
 window.handleTagInput=handleTagInput; window.removeTag=removeTag;
 window.showTagAutocomplete=showTagAutocomplete; window.applyTag=applyTag;
 window.setSeason=setSeason; window.markSentFromTab=markSentFromTab;
@@ -1314,7 +1307,138 @@ window.loadDataFromFile=loadDataFromFile; window.handleLoadFile=handleLoadFile;
 renderList(); updateStats();
 if(!localStorage.getItem("mynetwork_seen")){ openOnboardModal(); }
 
-// unsaved changes guard
+// ── NAV STATE ─────────────────────────────
+function updateNavState(){
+  const hasData = connections.length > 0;
+  // Contact count
+  const countEl = document.getElementById("navContactCount");
+  if(countEl){
+    countEl.textContent = hasData ? connections.length + " contacts" : "";
+    countEl.style.display = hasData ? "inline" : "none";
+  }
+  // Import button label
+  const importLabel = document.getElementById("importCSVLabel");
+  if(importLabel) importLabel.textContent = hasData ? "Add New CSV" : "Import CSV";
+  // Import button onclick — show warning modal if data exists
+  const importBtn = document.getElementById("btnImportCSV");
+  if(importBtn){
+    if(hasData){
+      importBtn.setAttribute("onclick", "openAddCSVModal()");
+    } else {
+      importBtn.setAttribute("onclick", "openImportModal()");
+    }
+  }
+  // Save JSON — only show when data exists
+  const saveBtn = document.getElementById("btnSaveJSON");
+  if(saveBtn) saveBtn.style.display = hasData ? "" : "none";
+  // Load JSON — hide when data exists (risky to overwrite)
+  const loadBtn = document.getElementById("btnLoadJSON");
+  if(loadBtn) loadBtn.style.display = hasData ? "none" : "";
+  // Add Contact — only show when data exists
+  const addBtn = document.getElementById("btnAddContact");
+  if(addBtn) addBtn.style.display = hasData ? "" : "none";
+}
+
+function openAddCSVModal(){
+  document.getElementById("addCSVModal").classList.add("open");
+}
+window.openAddCSVModal = openAddCSVModal;
+
+// ── TOP TAB SWITCHING ──────────────────────
+let currentTopTab = "connections";
+
+function switchTopTab(tab){
+  currentTopTab = tab;
+  document.querySelectorAll(".topnav-tab").forEach(t => t.classList.remove("active"));
+  document.getElementById(tab === "connections" ? "tabConnections" : "tabHowTo").classList.add("active");
+
+  const appWrapper = document.querySelector(".app-wrapper");
+  const howtoView  = document.getElementById("howtoView");
+
+  if(tab === "connections"){
+    if(appWrapper) appWrapper.style.display = "";
+    howtoView.style.display = "none";
+    if(selectedId){
+      renderDetail(selectedId);
+    } else {
+      showOnboarding();
+    }
+  } else {
+    if(appWrapper) appWrapper.style.display = "none";
+    document.getElementById("onboardingView").style.display = "none";
+    document.getElementById("detailView").style.display = "none";
+    document.getElementById("greetingsView").style.display = "none";
+    renderHowTo();
+  }
+}
+window.switchTopTab = switchTopTab;
+
+function renderHowTo(){
+  const el = document.getElementById("howtoView");
+  el.style.display = "block";
+  el.innerHTML = `
+  <div style="max-width:900px;margin:0 auto;padding:52px 56px 96px">
+    <h1 style="font-size:24px;font-weight:700;color:#1F1F1F;margin-bottom:8px">How to use myNETWORK</h1>
+    <p style="font-size:15px;color:#4A4A4A;margin-bottom:48px;line-height:1.6">Everything stays on your device. No accounts, no sync, no cloud.</p>
+
+    <div style="display:flex;flex-direction:column;gap:0">
+
+      <div style="display:flex;gap:24px;align-items:flex-start;padding-bottom:32px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:#1F1F1F;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</div>
+        <div style="flex:1">
+          <div style="font-size:16px;font-weight:600;color:#1F1F1F;margin-bottom:6px">Import your LinkedIn connections</div>
+          <div style="font-size:14px;color:#4A4A4A;line-height:1.7">Go to LinkedIn &rarr; Settings &rarr; Data Privacy &rarr; Download your data &rarr; Download larger data archive. LinkedIn will email you a zip file. Unzip it and upload only the <strong>Connections.csv</strong> file here.</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:12px 16px;background:#FFFFFF;border-radius:var(--r-sm);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-top:12px"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;color:#6B6B6B"><path d="M8 2a4 4 0 0 1 2 7.5V11H6v-1.5A4 4 0 0 1 8 2z"/><path d="M6 12h4"/><path d="M6.5 14h3"/></svg><span style="font-size:13px;color:#4A4A4A;line-height:1.6">This can take up to 24 hours for LinkedIn to prepare. You only need to do this once to get started.</span></div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:var(--border);margin:4px 0"></div>
+
+      <div style="display:flex;gap:24px;align-items:flex-start;padding:32px 0">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:#1F1F1F;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</div>
+        <div style="flex:1">
+          <div style="font-size:16px;font-weight:600;color:#1F1F1F;margin-bottom:6px">Add notes and tags to each person</div>
+          <div style="font-size:14px;color:#4A4A4A;line-height:1.7">Click any contact, then hit Edit. Write how you met them, add tags like <em>Mentor</em> or <em>BrightInsight</em> to group people. Use the tag filter dropdown in the sidebar to find contacts by category.</div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:var(--border);margin:4px 0"></div>
+
+      <div style="display:flex;gap:24px;align-items:flex-start;padding:32px 0">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:#1F1F1F;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</div>
+        <div style="flex:1">
+          <div style="font-size:16px;font-weight:600;color:#1F1F1F;margin-bottom:6px">Save your data as a JSON file</div>
+          <div style="font-size:14px;color:#4A4A4A;line-height:1.7">Click <strong>Save JSON</strong> after every session. This downloads a file called <strong>my-network.json</strong> to your computer. Next time you open the app, click <strong>Load JSON</strong> to restore everything exactly where you left off.</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:12px 16px;background:#FFFFFF;border-radius:var(--r-sm);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-top:12px"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;color:#6B6B6B"><path d="M8 2a4 4 0 0 1 2 7.5V11H6v-1.5A4 4 0 0 1 8 2z"/><path d="M6 12h4"/><path d="M6.5 14h3"/></svg><span style="font-size:13px;color:#4A4A4A;line-height:1.6">Nothing is saved automatically. If you close the tab without saving first, any changes made during that session will be lost.</span></div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:var(--border);margin:4px 0"></div>
+
+      <div style="display:flex;gap:24px;align-items:flex-start;padding:32px 0">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:#1F1F1F;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">4</div>
+        <div style="flex:1">
+          <div style="font-size:16px;font-weight:600;color:#1F1F1F;margin-bottom:6px">Star people for seasonal greetings</div>
+          <div style="font-size:14px;color:#4A4A4A;line-height:1.7">On any contact, click <strong>Star for greeting</strong>. They will show up in the Greetings tab. Pick a season, draft a personal message, and track who you have reached out to.</div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:var(--border);margin:4px 0"></div>
+
+      <div style="display:flex;gap:24px;align-items:flex-start;padding:32px 0 0">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--primary);color:#1F1F1F;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">5</div>
+        <div style="flex:1">
+          <div style="font-size:16px;font-weight:600;color:#1F1F1F;margin-bottom:6px">Adding new connections later</div>
+          <div style="font-size:14px;color:#4A4A4A;line-height:1.7">Load your JSON first, then click <strong>Add New CSV</strong> to import a fresh export from LinkedIn. Only new contacts are added. Your existing notes, tags, and starred contacts are never touched.</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:12px 16px;background:#FFFFFF;border-radius:var(--r-sm);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-top:12px"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;color:#6B6B6B"><path d="M8 2a4 4 0 0 1 2 7.5V11H6v-1.5A4 4 0 0 1 8 2z"/><path d="M6 12h4"/><path d="M6.5 14h3"/></svg><span style="font-size:13px;color:#4A4A4A;line-height:1.6">Always load your JSON before importing a new CSV, otherwise your previous notes and tags will not be there to be preserved.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>`;
+}
+
+// ── UNSAVED CHANGES GUARD ─────────────────
 let hasUnsavedChanges = false;
 function markUnsaved(){ hasUnsavedChanges = true; }
 function markSaved(){ hasUnsavedChanges = false; }
@@ -1324,30 +1448,44 @@ window.addEventListener('beforeunload', function(e){
 });
 </script>
 
-<!-- MODAL: CONFIRM DELETE -->
-<div class="modal-overlay" id="confirmModal" onclick="if(event.target===this)closeModal('confirmModal')">
-  <div class="modal" style="max-width:420px">
-    <div class="modal-header" style="padding-bottom:0">
+<!-- MODAL: ADD NEW CSV WARNING -->
+<div class="modal-overlay" id="addCSVModal" onclick="if(event.target===this)closeModal('addCSVModal')">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-header">
       <div class="modal-header-content">
-        <div class="modal-label-row" style="color:#b91c1c">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><path d="M8 2L14 13H2L8 2Z"/><line x1="8" y1="7" x2="8" y2="10"/><circle cx="8" cy="12" r="0.5" fill="currentColor"/></svg>
-          Remove from myNETWORK
+        <div class="modal-label-row">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><circle cx="8" cy="8" r="6"/><line x1="8" y1="7" x2="8" y2="11"/><circle cx="8" cy="5.5" r="0.5" fill="currentColor"/></svg>
+          Before you import
         </div>
-        <h2 style="font-size:19px;margin-top:6px">Remove <span id="confirmDeleteName"></span>?</h2>
+        <h2 style="font-size:19px;margin-top:6px">Adding new connections</h2>
       </div>
-      <button class="modal-close" onclick="closeModal('confirmModal')" aria-label="Close">
+      <button class="modal-close" onclick="closeModal('addCSVModal')" aria-label="Close">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg>
       </button>
     </div>
     <div class="modal-body" style="padding-top:16px">
-      <p style="font-size:14px;color:var(--ink-secondary);line-height:1.6;margin-bottom:8px">This will remove them from myNETWORK, including any notes and tags you've added.</p>
-      <p style="font-size:13.5px;color:var(--ink-tertiary);line-height:1.6;padding:12px 14px;background:var(--surface);border-radius:var(--r-sm);border:1px solid var(--border)">
-        <strong style="color:var(--ink-secondary)">Your LinkedIn connection is not affected.</strong> This only removes them from this app — they'll still be connected to you on LinkedIn.
-      </p>
+      <p style="font-size:14px;color:var(--ink-secondary);line-height:1.6;margin-bottom:16px">Your existing contacts, notes, and tags are safe. Importing a new CSV only adds people who are not already in your network.</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--surface);border-radius:var(--r-sm);border:1px solid var(--border)">
+          <svg viewBox="0 0 16 16" fill="none" stroke="#15803d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex-shrink:0;margin-top:1px"><polyline points="3,8 6.5,11.5 13,4"/></svg>
+          <span style="font-size:13.5px;color:var(--ink-secondary);line-height:1.5">Existing contacts are matched by email or LinkedIn URL. Duplicates are skipped.</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--surface);border-radius:var(--r-sm);border:1px solid var(--border)">
+          <svg viewBox="0 0 16 16" fill="none" stroke="#15803d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex-shrink:0;margin-top:1px"><polyline points="3,8 6.5,11.5 13,4"/></svg>
+          <span style="font-size:13.5px;color:var(--ink-secondary);line-height:1.5">Your notes and tags are never overwritten.</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--surface);border-radius:var(--r-sm);border:1px solid var(--border)">
+          <svg viewBox="0 0 16 16" fill="none" stroke="#15803d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex-shrink:0;margin-top:1px"><polyline points="3,8 6.5,11.5 13,4"/></svg>
+          <span style="font-size:13.5px;color:var(--ink-secondary);line-height:1.5">Only new connections from the CSV will be added.</span>
+        </div>
+      </div>
     </div>
     <div class="modal-footer" style="gap:8px">
-      <button class="btn btn-secondary" style="flex:1;justify-content:center" onclick="closeModal('confirmModal')">Keep them</button>
-      <button class="btn btn-danger" style="flex:1;justify-content:center;padding:10px 18px;border-radius:var(--r-md)" onclick="confirmDeleteYes()">Yes, remove</button>
+      <button class="btn btn-secondary" style="flex:1;justify-content:center" onclick="closeModal('addCSVModal')">Cancel</button>
+      <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="closeModal('addCSVModal');openImportModal()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M3 4H13M5 9L8 6L11 9M8 14V6"/></svg>
+        Continue to import
+      </button>
     </div>
   </div>
 </div>
